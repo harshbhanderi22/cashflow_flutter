@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:khatabook/Utils/Components/common_text.dart';
+import 'package:khatabook/Utils/Components/customer_card.dart';
+import 'package:khatabook/Utils/Components/homepage_floating.dart';
+import 'package:khatabook/Utils/constant.dart';
+import 'package:khatabook/view_model/home_screen_provider.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,149 +17,143 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.grey.shade200,
-        appBar: AppBar(
-          title: const Text("Cash Flow"),
-          centerTitle: true,
-          elevation: 0,
-          backgroundColor: Colors.red.shade400,
-        ),
-        body: SingleChildScrollView(
-          child: Container(
-            margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 75,
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  child: Row(children: [
-                    Expanded(
-                        child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 5),
-                      decoration: BoxDecoration(
-                          boxShadow: const [
-                            BoxShadow(
-                                offset: Offset(0, 10),
-                                color: Colors.black38,
-                                blurRadius: 15)
-                          ],
-                          color: Colors.green.shade400,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Text(
-                              "Income",
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.white),
-                            ),
-                            SizedBox(
-                              height: 1,
-                            ),
-                            Text(
-                              "10000 \$",
-                              style:
-                                  TextStyle(fontSize: 24, color: Colors.black),
-                            ),
-                          ]),
-                    )),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                        child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 5),
-                      decoration: BoxDecoration(
-                          boxShadow: const [
-                            BoxShadow(
-                                offset: Offset(0, 10),
-                                color: Colors.black38,
-                                blurRadius: 15)
-                          ],
-                          color: Colors.red.shade400,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
-                      child: Column(children: const [
-                        Text(
-                          "Expense",
-                          style: TextStyle(fontSize: 18, color: Colors.white),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          "10000 \$",
-                          style: TextStyle(fontSize: 22, color: Colors.black),
-                        ),
-                      ]),
-                    )),
-                  ]),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "Your Account Books",
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
+        child: Scaffold(
+      appBar: AppBar(
+        title: const Text("Cash Flow"),
+        elevation: 0,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: InkWell(
+                onTap: () {},
+                child: const Icon(
+                  Icons.person,
                   color: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Shubham",
-                                style: TextStyle(fontSize: 20),
-                              ),
-                              SizedBox(
-                                height: 2,
-                              ),
-                              Text("Cash"),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                "500",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.green,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text("Balance: 500")
-                            ],
-                          )
-                        ],
-                      ),
-                      Divider(),
-                      Text("Edit By You at 10:39 AM")
-                    ],
-                  ),
-                )
+                )),
+          )
+        ],
+      ),
+      drawer: const Drawer(),
+      body: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Hello User",
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                Consumer<HomePageProvider>(builder: (context, value, child) {
+                  return Text(
+                    "₹ ${value.getIncome - value.getExpense}",
+                    style: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.bold),
+                  );
+                })
               ],
             ),
-          ),
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              height: 100,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  // color: redColor,
+                  gradient: LinearGradient(
+                      stops: const [0.5, 0.5],
+                      colors: [Colors.green.shade800, redColor],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      tileMode: TileMode.clamp),
+                  boxShadow: const [
+                    BoxShadow(
+                        color: Colors.black54,
+                        blurRadius: 10,
+                        offset: Offset(0, 5))
+                  ],
+                  borderRadius: BorderRadius.circular(20)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Your Income",
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700),
+                      ),
+                      const SizedBox(height: 10),
+                      Consumer<HomePageProvider>(
+                          builder: (context, value, child) {
+                        return Text(
+                          "₹ ${value.getIncome}",
+                          style: const TextStyle(
+                              fontSize: 22,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700),
+                        );
+                      })
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Your Expense",
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700),
+                      ),
+                      const SizedBox(height: 10),
+                      Consumer<HomePageProvider>(
+                          builder: (context, value, child) {
+                        return Text(
+                          "₹ ${value.getExpense}",
+                          style: const TextStyle(
+                              fontSize: 22,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700),
+                        );
+                      })
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            const Text(
+              "Your Customer",
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Expanded(
+              flex: 1,
+              child: ListView.builder(
+                itemCount: 10,
+                itemBuilder: (BuildContext context, int index) {
+                  return const CustomerCard();
+                },
+              ),
+            ),
+          ],
         ),
       ),
-    );
+      floatingActionButton: const HomePageFlotingButton(),
+    ));
   }
 }

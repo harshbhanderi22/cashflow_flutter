@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:khatabook/Utils/Components/common_text_field.dart';
-import 'package:khatabook/Utils/Components/login_method_circle.dart';
+ import 'package:khatabook/Utils/Components/other_signin_method.dart';
 import 'package:khatabook/Utils/general_utils.dart';
-import 'package:khatabook/view_model/Auth%20Providers/google_sign_in_provider.dart';
-import 'package:khatabook/view_model/Auth%20Providers/login_provider.dart';
+ import 'package:khatabook/view_model/Auth%20Providers/login_provider.dart';
 
 import 'package:provider/provider.dart';
 
@@ -15,6 +14,16 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -92,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 return CommonTextField(
                                   hint: "Enter Email",
                                   prefix: Icons.email,
-                                  controller: value.emailController,
+                                  controller: _emailController,
                                 );
                               }),
                               const Divider(
@@ -105,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   hint: "Enter Password",
                                   obsecure: value.isPasswordVisible,
                                   prefix: Icons.lock,
-                                  controller: value.passwordController,
+                                  controller: _passwordController,
                                   onSuffixTap: () {
                                     value.setPasswordVisiblity(
                                         !value.isPasswordVisible);
@@ -135,15 +144,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             builder: (context, value, child) {
                           return InkWell(
                             onTap: () {
-                              if (value.emailController.text.isEmpty) {
-                                GeneralUtils.showToast("Email cannot be empty");
-                              } else if (value
-                                  .passwordController.text.isEmpty) {
-                                GeneralUtils.showToast(
-                                    "Password cannot be empty");
-                              } else {
-                                value.login(context);
-                              }
+                              value.validateLoginDetailsAndLogin(
+                                  _emailController.text,
+                                  _passwordController.text);
                             },
                             child: Container(
                               height: 50,
@@ -174,29 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(
                           height: 40,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Consumer<GoogleSingInProivder>(
-                                builder: ((context, value, child) {
-                              return LoginMethodCircle(
-                                path: "assests/images/google.png",
-                                onTap: () {
-                                  value.googleLogIn(context);
-                                },
-                              );
-                            })),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            LoginMethodCircle(
-                              path: "assests/images/facebook2.png",
-                              onTap: () {
-                                GeneralUtils.showToast("Coming Soon");
-                              },
-                            ),
-                          ],
-                        ),
+                        const OtherLoginMethod(),
                         const SizedBox(
                           height: 40,
                         ),

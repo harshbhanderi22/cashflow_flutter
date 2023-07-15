@@ -1,13 +1,11 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:khatabook/Utils/constant.dart';
 import 'package:khatabook/Utils/general_utils.dart';
 
 class LoginProvider with ChangeNotifier {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-
-  TextEditingController get emailController => _emailController;
-  TextEditingController get passwordController => _passwordController;
 
   bool _isLoading = false;
 
@@ -27,33 +25,38 @@ class LoginProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> login(BuildContext context) async {
+  void validateLoginDetailsAndLogin(
+      String email, String password) {
+   if (email.isEmpty) {
+      GeneralUtils.showToast(emailValidation);
+    } else if (GeneralUtils().checkValidEmail(email) == false) {
+      GeneralUtils.showToast(inValidEmailValidation);
+    } else if (password.isEmpty) {
+      GeneralUtils.showToast(passwordValidation);
+    } else if (password.length < 8) {
+      GeneralUtils.showToast(passwordLengthValidation);
+    }else {
+      loginUser(email, password);
+    }
+  }
+
+
+  Future<void> loginUser(String email, String password) async {
     setLoading(true);
-    try {
-      // ignore: unused_local_variable
-      final credential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-              email: emailController.text, password: passwordController.text)
-          .then((value) {
+    try{
+      final credential = FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password).then((value) {
         setLoading(false);
-        Navigator.pushReplacementNamed(context, "home_screen");
+        GeneralUtils.showToast("You Logged In Successfully");
       });
-
-      setLoading(false);
-
-      return true;
     } on FirebaseAuthException catch (e) {
       setLoading(false);
 
       if (e.code == 'user-not-found') {
-        GeneralUtils.showWarningOrError("No user found for that email.");
-        //print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        GeneralUtils.showWarningOrError(
+        GeneralUtils.showToast("No user found for that email.");
+       } else if (e.code == 'wrong-password') {
+        GeneralUtils.showToast(
             "Wrong password provided for that user.");
-        //print('Wrong password provided for that user.');
-      }
+       }
     }
-    return false;
-  }
+   }
 }

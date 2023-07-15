@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:khatabook/Utils/Components/common_text_field.dart';
-import 'package:khatabook/Utils/Components/login_method_circle.dart';
+ import 'package:khatabook/Utils/Components/other_signin_method.dart';
 import 'package:khatabook/Utils/general_utils.dart';
-import 'package:khatabook/view_model/Auth%20Providers/google_sign_in_provider.dart';
-import 'package:khatabook/view_model/Auth%20Providers/signup_provider.dart';
+ import 'package:khatabook/view_model/Auth%20Providers/signup_provider.dart';
 import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -14,6 +13,12 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+
+    final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _confirmController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -82,7 +87,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 return CommonTextField(
                                   hint: "Enter Name",
                                   prefix: Icons.person,
-                                  controller: value.nameController,
+                                  controller: _nameController,
                                 );
                               }),
                               const Divider(
@@ -94,7 +99,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 return CommonTextField(
                                   hint: "Enter Email",
                                   prefix: Icons.email,
-                                  controller: value.emailController,
+                                  controller: _emailController,
                                 );
                               }),
                               const Divider(
@@ -106,7 +111,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 return CommonTextField(
                                   hint: "Enter Password",
                                   prefix: Icons.lock,
-                                  controller: value.passwordController,
+                                  controller: _passwordController,
                                 );
                               }),
                               const Divider(
@@ -119,7 +124,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   hint: "Confirm Password",
                                   obsecure: value.isPasswordVisible,
                                   prefix: Icons.lock,
-                                  controller: value.confirmController,
+                                  controller: _confirmController,
                                   onSuffixTap: () {
                                     value.setPasswordVisiblity(
                                         !value.isPasswordVisible);
@@ -149,28 +154,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             builder: (context, value, child) {
                           return InkWell(
                             onTap: () {
-                              if (value.nameController.text.isEmpty) {
-                                GeneralUtils.showToast("Name cannot be Empty");
-                              } else if (value.emailController.text.isEmpty) {
-                                GeneralUtils.showToast("Email cannot be Empty");
-                              } else if (value
-                                  .passwordController.text.isEmpty) {
-                                GeneralUtils.showToast(
-                                    "Password cannot be Empty");
-                              } else if (value.confirmController.text.isEmpty) {
-                                GeneralUtils.showToast(
-                                    "Confirm Password cannot be Empty");
-                              } else if (value.passwordController.text !=
-                                  value.confirmController.text) {
-                                GeneralUtils.showToast(
-                                    "Password and Confirm Password are not matching");
-                              } else if (value.passwordController.text.length <
-                                  8) {
-                                GeneralUtils.showToast(
-                                    "Password length must be minimum 8");
-                              } else {
-                                value.signUp(context);
-                              }
+                              
+                                value.validateRegisterDetailsAndRegister(_nameController.text,_emailController.text,_passwordController.text,_confirmController.text);
+                              
                             },
                             child: Container(
                               height: 50,
@@ -201,29 +187,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         const SizedBox(
                           height: 40,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Consumer<GoogleSingInProivder>(
-                                builder: ((context, value, child) {
-                              return LoginMethodCircle(
-                                path: "assests/images/google.png",
-                                onTap: () {
-                                  value.googleLogIn(context);
-                                },
-                              );
-                            })),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            LoginMethodCircle(
-                              path: "assests/images/facebook2.png",
-                              onTap: () {
-                                GeneralUtils.showToast("Coming Soon");
-                              },
-                            ),
-                          ],
-                        ),
+                        const OtherLoginMethod(),
                         const SizedBox(
                           height: 40,
                         ),
@@ -252,3 +216,4 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 }
+

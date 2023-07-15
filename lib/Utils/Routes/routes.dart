@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:khatabook/Utils/Routes/route_name.dart';
+import 'package:khatabook/View/Forms/customer_add.dart';
 import 'package:khatabook/View/home_screen.dart';
 import 'package:khatabook/View/login_screen.dart';
 import 'package:khatabook/View/sign_up_screen.dart';
@@ -15,6 +16,8 @@ class Routes {
 
       case RouteNames.home:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
+        case RouteNames.addCustomer:
+        return MaterialPageRoute(builder: (_) => const AddCustomer());
 
       default:
         return MaterialPageRoute(
