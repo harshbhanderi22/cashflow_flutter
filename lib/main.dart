@@ -2,12 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:khatabook/Utils/Routes/routes.dart';
-import 'package:khatabook/Utils/Routes/route_name.dart';
 import 'package:khatabook/View/home_screen.dart';
 import 'package:khatabook/View/login_screen.dart';
-import 'package:khatabook/view_model/google_sign_in_provider.dart';
-import 'package:khatabook/view_model/login_provider.dart';
-import 'package:khatabook/view_model/signup_provider.dart';
+import 'package:khatabook/view_model/Auth%20Providers/google_sign_in_provider.dart';
+import 'package:khatabook/view_model/Auth%20Providers/login_provider.dart';
+import 'package:khatabook/view_model/Auth%20Providers/signup_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() async{

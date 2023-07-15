@@ -1,10 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:khatabook/Utils/Components/common_text_field.dart';
 import 'package:khatabook/Utils/Components/login_method_circle.dart';
 import 'package:khatabook/Utils/general_utils.dart';
-import 'package:khatabook/view_model/google_sign_in_provider.dart';
-import 'package:khatabook/view_model/login_provider.dart';
+import 'package:khatabook/view_model/Auth%20Providers/google_sign_in_provider.dart';
+import 'package:khatabook/view_model/Auth%20Providers/login_provider.dart';
+
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {

@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:khatabook/Utils/general_utils.dart';
 
 class LoginProvider with ChangeNotifier {
@@ -31,6 +30,7 @@ class LoginProvider with ChangeNotifier {
   Future<bool> login(BuildContext context) async {
     setLoading(true);
     try {
+      // ignore: unused_local_variable
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(
               email: emailController.text, password: passwordController.text)
@@ -55,11 +55,5 @@ class LoginProvider with ChangeNotifier {
       }
     }
     return false;
-  }
-
-  void disposeController() {
-    print("It Disposed");
-    emailController.dispose();
-    passwordController.dispose();
   }
 }

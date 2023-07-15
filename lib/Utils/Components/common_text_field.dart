@@ -25,7 +25,7 @@ class CommonTextField extends StatelessWidget {
       decoration: InputDecoration(
           contentPadding: const EdgeInsets.only(top: 12),
           border: InputBorder.none,
-          hintStyle: TextStyle(fontSize: 14),
+          hintStyle: const TextStyle(fontSize: 14),
           prefixIcon: Icon(
             prefix,
             color: Colors.red.shade400,

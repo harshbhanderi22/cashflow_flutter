@@ -1,7 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class AppException implements Exception {
-  var _message;
-  var  _prefix;
+  // ignore: prefer_typing_uninitialized_variables
+  final  _message;
+  // ignore: prefer_typing_uninitialized_variables
+  final  _prefix;
   AppException(
     this._message,
     this._prefix,

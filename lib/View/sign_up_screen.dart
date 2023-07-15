@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:khatabook/Utils/Components/common_text_field.dart';
 import 'package:khatabook/Utils/Components/login_method_circle.dart';
 import 'package:khatabook/Utils/general_utils.dart';
-import 'package:khatabook/view_model/google_sign_in_provider.dart';
-import 'package:khatabook/view_model/signup_provider.dart';
+import 'package:khatabook/view_model/Auth%20Providers/google_sign_in_provider.dart';
+import 'package:khatabook/view_model/Auth%20Providers/signup_provider.dart';
 import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -169,7 +169,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 GeneralUtils.showToast(
                                     "Password length must be minimum 8");
                               } else {
-                                value.Signup(context);
+                                value.signUp(context);
                               }
                             },
                             child: Container(

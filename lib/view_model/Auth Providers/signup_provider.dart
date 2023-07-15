@@ -31,9 +31,10 @@ class SignupProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> Signup(BuildContext context) async {
+  Future<void> signUp(BuildContext context) async {
     setLoading(true);
     try {
+      // ignore: unused_local_variable
       final credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
         email: emailController.text,
@@ -58,7 +59,7 @@ class SignupProvider with ChangeNotifier {
 
   
 
-  Future<void> SignOut() async {
+  Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
   }
 }
