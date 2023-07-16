@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:khatabook/Utils/Components/common_text.dart';
+import 'package:khatabook/Utils/Routes/Arguments/book_form_argument.dart';
 import 'package:khatabook/Utils/Routes/route_name.dart';
 import 'package:khatabook/Utils/constant.dart';
 
@@ -12,7 +13,10 @@ class HomePageFlotingButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(RouteNames.addCustomer);
+        Navigator.of(context).pushNamed(RouteNames.addBook,
+            arguments: BookFormArguments(
+              edit: false
+              ));
       },
       child: Container(
         height: 50,

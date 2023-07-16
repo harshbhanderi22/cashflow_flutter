@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:khatabook/Models/user_model.dart';
 import 'package:khatabook/Utils/constant.dart';
 import 'package:khatabook/Utils/general_utils.dart';
-import 'package:khatabook/data/Firebase%20Data/store_user_data.dart';
+import 'package:khatabook/data/Firebase%20Data/user_data.dart';
 
 class SignupProvider with ChangeNotifier {
   bool _isLoading = false;

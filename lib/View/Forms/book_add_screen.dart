@@ -1,24 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:khatabook/Models/customer_model.dart';
+import 'package:khatabook/Models/book_model.dart';
 import 'package:khatabook/Utils/Components/common_form_field.dart';
 import 'package:khatabook/Utils/Components/common_text.dart';
 import 'package:khatabook/Utils/constant.dart';
 import 'package:khatabook/Utils/general_utils.dart';
-import 'package:khatabook/data/Firebase%20Data/store_customer_data_to_user.dart';
-import 'package:khatabook/view_model/customer_form_provider.dart';
+import 'package:khatabook/view_model/book_form_provider.dart';
 import 'package:provider/provider.dart';
 
-class AddCustomer extends StatefulWidget {
-  const AddCustomer({super.key});
+class AddBook extends StatefulWidget {
+  final BookModel? bookModel;
+  final bool edit;
+  final String? id;
+
+  const AddBook({super.key, this.bookModel, required this.edit, this.id});
 
   @override
-  State<AddCustomer> createState() => _AddCustomerState();
+  State<AddBook> createState() => _AddBookState();
 }
 
-class _AddCustomerState extends State<AddCustomer> {
+class _AddBookState extends State<AddBook> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _mobileController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.bookModel != null) {
+      _nameController.text = widget.bookModel!.name;
+      _addressController.text = widget.bookModel!.address;
+      _mobileController.text = widget.bookModel!.mobile;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +47,7 @@ class _AddCustomerState extends State<AddCustomer> {
             children: [
               Row(
                 children: [
-                  Consumer<CustomerFormProvider>(
-                      builder: (context, value, child) {
+                  Consumer<BookFormProvider>(builder: (context, value, child) {
                     return CircleAvatar(
                       backgroundColor: Colors.red.shade100,
                       radius: 50,
@@ -44,7 +56,7 @@ class _AddCustomerState extends State<AddCustomer> {
                           width: 100,
                           height: 100,
                           child: value.getPickedImage == null
-                              ? Icon(
+                              ? const Icon(
                                   Icons.camera_alt,
                                   color: Colors.black,
                                   size: 36,
@@ -63,7 +75,7 @@ class _AddCustomerState extends State<AddCustomer> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Consumer<CustomerFormProvider>(
+                      Consumer<BookFormProvider>(
                           builder: (context, value, child) {
                         return InkWell(
                           onTap: () {
@@ -107,7 +119,7 @@ class _AddCustomerState extends State<AddCustomer> {
                 children: [
                   Row(
                     children: [
-                      Consumer<CustomerFormProvider>(
+                      Consumer<BookFormProvider>(
                           builder: (context, value, child) {
                         return Radio(
                             activeColor: redColor,
@@ -125,7 +137,7 @@ class _AddCustomerState extends State<AddCustomer> {
                   ),
                   Row(
                     children: [
-                      Consumer<CustomerFormProvider>(
+                      Consumer<BookFormProvider>(
                           builder: (context, value, child) {
                         return Radio(
                             activeColor: redColor,
@@ -158,18 +170,22 @@ class _AddCustomerState extends State<AddCustomer> {
               const SizedBox(
                 height: 20,
               ),
-              Consumer<CustomerFormProvider>(builder: (conext, value, child) {
+              Consumer<BookFormProvider>(builder: (context, value, child) {
                 return InkWell(
-                  onTap: () {
-                    StoreCustomerDataToUser().addCustomer(CustomerModel(
-                            image: value.getPickedImageUrl,
-                            name: _nameController.text,
-                            type: value.getSelectedOption == 0
-                                ? "Customer"
-                                : "Merchant",
-                            mobile: _mobileController.text,
-                            address: _addressController.text)
-                        .toMap());
+                  onTap: () async {
+                    BookModel cm = BookModel(
+                        image: value.getPickedImageUrl,
+                        name: _nameController.text,
+                        type: value.getSelectedOption == 0
+                            ? "Customer"
+                            : "Merchant",
+                        address: _addressController.text,
+                        mobile: _mobileController.text,
+                        id: widget.id);
+                    widget.edit==true
+                        ? value.updateData(cm, widget.id!, context)
+                        :
+                    value.addData(cm, context);
                   },
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 80),

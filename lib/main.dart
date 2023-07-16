@@ -5,18 +5,17 @@ import 'package:khatabook/Utils/Routes/route_name.dart';
 import 'package:khatabook/Utils/Routes/routes.dart';
 import 'package:khatabook/Utils/constant.dart';
 import 'package:khatabook/View/home_screen.dart';
-import 'package:khatabook/View/login_screen.dart';
-import 'package:khatabook/view_model/Auth%20Providers/google_sign_in_provider.dart';
+ import 'package:khatabook/view_model/Auth%20Providers/google_sign_in_provider.dart';
 import 'package:khatabook/view_model/Auth%20Providers/login_provider.dart';
 import 'package:khatabook/view_model/Auth%20Providers/signup_provider.dart';
-import 'package:khatabook/view_model/customer_form_provider.dart';
+import 'package:khatabook/view_model/book_form_provider.dart';
 import 'package:khatabook/view_model/home_screen_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -39,7 +38,7 @@ class MyApp extends StatelessWidget {
             create: (context) => HomePageProvider(),
           ),
           ChangeNotifierProvider(
-            create: (context) => CustomerFormProvider(),
+            create: (context) => BookFormProvider(),
           ),
         ],
         child: MaterialApp(

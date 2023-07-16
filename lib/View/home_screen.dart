@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:khatabook/Utils/Components/common_text.dart';
-import 'package:khatabook/Utils/Components/customer_card.dart';
+import 'package:khatabook/Utils/Components/book_card.dart';
 import 'package:khatabook/Utils/Components/homepage_floating.dart';
 import 'package:khatabook/Utils/constant.dart';
 import 'package:khatabook/view_model/home_screen_provider.dart';
@@ -14,6 +13,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<HomePageProvider>(context, listen: false).fetchCustomerList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -135,21 +142,30 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 20,
             ),
             const Text(
-              "Your Customer",
+              "Your Books",
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             const SizedBox(
               height: 20,
             ),
             Expanded(
-              flex: 1,
-              child: ListView.builder(
-                itemCount: 10,
-                itemBuilder: (BuildContext context, int index) {
-                  return const CustomerCard();
-                },
-              ),
-            ),
+                flex: 1,
+                child: Consumer<HomePageProvider>(
+                    builder: (context, value, child) {
+                  return value.getLoading
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : ListView.builder(
+                          itemCount: value.getCustomerList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return BookCard(
+                           
+                              bookModel: value.getCustomerList[index],
+                            );
+                          },
+                        );
+                })),
           ],
         ),
       ),

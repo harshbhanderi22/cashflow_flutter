@@ -11,7 +11,7 @@ class CommonFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-      margin: EdgeInsets.only(bottom: 20),
+      margin: const EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
           border: Border.all(width: 1, color: Colors.black),
           borderRadius: const BorderRadius.all(Radius.circular(10))),

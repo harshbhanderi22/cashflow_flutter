@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
+ 
 class GeneralUtils {
   static double getHeight(BuildContext context) {
     return MediaQuery.of(context).size.height;
@@ -23,4 +23,6 @@ class GeneralUtils {
 
     return regex.hasMatch(email);
   }
+
+  
 }
