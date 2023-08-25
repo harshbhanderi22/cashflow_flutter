@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:khatabook/Utils/Components/common_text_field.dart';
- import 'package:khatabook/Utils/Components/other_signin_method.dart';
+import 'package:khatabook/Utils/Components/other_signin_method.dart';
+import 'package:khatabook/Utils/constant.dart';
 import 'package:khatabook/Utils/general_utils.dart';
- import 'package:khatabook/view_model/Auth%20Providers/login_provider.dart';
+import 'package:khatabook/view_model/Auth%20Providers/login_provider.dart';
 
 import 'package:provider/provider.dart';
 
@@ -32,11 +33,9 @@ class _LoginScreenState extends State<LoginScreen> {
             body: Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                  gradient: LinearGradient(begin: Alignment.topCenter, colors: [
-                Colors.red.shade900,
-                Colors.red.shade800,
-                Colors.red.shade400
-              ])),
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      colors: [darkBlue, blue, lightBlue])),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -89,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   const BorderRadius.all(Radius.circular(10)),
                               boxShadow: const [
                                 BoxShadow(
-                                    color: Color.fromRGBO(255, 68, 44, 0.294),
+                                    color: Color.fromRGBO(34, 30, 255, 0.286),
                                     blurRadius: 15,
                                     offset: Offset(0, 10))
                               ],
@@ -157,7 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     left: Radius.circular(30),
                                     right: Radius.circular(30),
                                   ),
-                                  color: Colors.red.shade600),
+                                  color: blue),
                               child: Center(
                                 child: value.isLoading
                                     ? const CircularProgressIndicator(
@@ -166,9 +165,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                     : const Text(
                                         "Login",
                                         style: TextStyle(
-                                            fontSize: 20,
+                                            fontSize: 22,
                                             color: Colors.white,
-                                            fontWeight: FontWeight.w500),
+                                            fontWeight: FontWeight.w700),
                                       ),
                               ),
                             ),
@@ -191,7 +190,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                               child: Text(
                                 "Sign Up",
-                                style: TextStyle(color: Colors.red.shade600),
+                                style: TextStyle(color: blue),
                               ),
                             )
                           ],

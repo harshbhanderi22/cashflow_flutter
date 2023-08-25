@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:khatabook/Utils/Components/common_text_field.dart';
- import 'package:khatabook/Utils/Components/other_signin_method.dart';
+import 'package:khatabook/Utils/Components/other_signin_method.dart';
+import 'package:khatabook/Utils/constant.dart';
 import 'package:khatabook/Utils/general_utils.dart';
- import 'package:khatabook/view_model/Auth%20Providers/signup_provider.dart';
+import 'package:khatabook/view_model/Auth%20Providers/signup_provider.dart';
 import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -13,8 +14,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-
-    final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _confirmController = TextEditingController();
@@ -27,18 +27,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
           body: Container(
             width: double.infinity,
             decoration: BoxDecoration(
-                gradient: LinearGradient(begin: Alignment.topCenter, colors: [
-              Colors.red.shade900,
-              Colors.red.shade800,
-              Colors.red.shade400
-            ])),
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    colors: [darkBlue, blue, lightBlue])),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 40, horizontal: 30),
-                  height: GeneralUtils.getHeight(context) * 0.20,
+                  height: GeneralUtils.getHeight(context) * 0.25,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -48,6 +46,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
                             fontSize: 40,
+                            color: Colors.white),
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      Text(
+                        "Streamline Your Finances with Us",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 18,
                             color: Colors.white),
                       ),
                     ],
@@ -75,7 +83,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   const BorderRadius.all(Radius.circular(10)),
                               boxShadow: const [
                                 BoxShadow(
-                                    color: Color.fromRGBO(255, 68, 44, 0.294),
+                                    color: Color.fromRGBO(34, 30, 255, 0.286),
                                     blurRadius: 15,
                                     offset: Offset(0, 10))
                               ],
@@ -154,9 +162,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             builder: (context, value, child) {
                           return InkWell(
                             onTap: () {
-                              
-                                value.validateRegisterDetailsAndRegister(_nameController.text,_emailController.text,_passwordController.text,_confirmController.text);
-                              
+                              value.validateRegisterDetailsAndRegister(
+                                  _nameController.text,
+                                  _emailController.text,
+                                  _passwordController.text,
+                                  _confirmController.text);
                             },
                             child: Container(
                               height: 50,
@@ -167,7 +177,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     left: Radius.circular(30),
                                     right: Radius.circular(30),
                                   ),
-                                  color: Colors.red.shade600),
+                                  color: blue),
                               child: Center(
                                 child: value.isLoading
                                     ? const CircularProgressIndicator(
@@ -201,7 +211,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               },
                               child: Text(
                                 "Log In",
-                                style: TextStyle(color: Colors.red.shade600),
+                                style: TextStyle(color: blue),
                               ),
                             )
                           ],
@@ -216,4 +226,3 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 }
-

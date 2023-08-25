@@ -14,15 +14,13 @@ class HomePageFlotingButton extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.of(context).pushNamed(RouteNames.addBook,
-            arguments: BookFormArguments(
-              edit: false
-              ));
+            arguments: BookFormArguments(edit: false));
       },
       child: Container(
         height: 50,
         width: 125,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20), color: redColor),
+        decoration:
+            BoxDecoration(borderRadius: BorderRadius.circular(20), color: blue),
         child: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

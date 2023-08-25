@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:khatabook/Models/book_model.dart';
 import 'package:khatabook/Utils/Components/common_form_field.dart';
@@ -33,6 +34,17 @@ class _AddBookState extends State<AddBook> {
     }
   }
 
+  late double balance;
+
+  Future<void> getBalance() async {
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection("ad")
+        .doc("eZygQLXU4BFNvSkqd2v2")
+        .get();
+
+    balance = snapshot.get('balance');
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -49,7 +61,7 @@ class _AddBookState extends State<AddBook> {
                 children: [
                   Consumer<BookFormProvider>(builder: (context, value, child) {
                     return CircleAvatar(
-                      backgroundColor: Colors.red.shade100,
+                      backgroundColor: Colors.blue.shade100,
                       radius: 50,
                       child: ClipOval(
                         child: SizedBox(
@@ -61,10 +73,12 @@ class _AddBookState extends State<AddBook> {
                                   color: Colors.black,
                                   size: 36,
                                 )
-                              : Image.file(
-                                  value.getPickedImage!,
-                                  fit: BoxFit.cover,
-                                ),
+                              : value.getImageLoading
+                                  ? CircularProgressIndicator()
+                                  : Image.file(
+                                      value.getPickedImage!,
+                                      fit: BoxFit.cover,
+                                    ),
                         ),
                       ),
                     );
@@ -79,7 +93,10 @@ class _AddBookState extends State<AddBook> {
                           builder: (context, value, child) {
                         return InkWell(
                           onTap: () {
-                            value.pickImage();
+                            widget.edit
+                                ? GeneralUtils.showToast(
+                                    "Editing Image Coming Soon")
+                                : value.pickImage();
                           },
                           child: Container(
                             padding: const EdgeInsets.symmetric(
@@ -87,7 +104,7 @@ class _AddBookState extends State<AddBook> {
                             decoration: BoxDecoration(
                                 borderRadius:
                                     const BorderRadius.all(Radius.circular(10)),
-                                color: redColor),
+                                color: blue),
                             child: const CommonText(
                               text: "Upload Photo",
                               fontWeight: FontWeight.bold,
@@ -122,7 +139,7 @@ class _AddBookState extends State<AddBook> {
                       Consumer<BookFormProvider>(
                           builder: (context, value, child) {
                         return Radio(
-                            activeColor: redColor,
+                            activeColor: lightBlue,
                             value: 0,
                             groupValue: value.getSelectedOption,
                             onChanged: (val) {
@@ -140,7 +157,7 @@ class _AddBookState extends State<AddBook> {
                       Consumer<BookFormProvider>(
                           builder: (context, value, child) {
                         return Radio(
-                            activeColor: redColor,
+                            activeColor: lightBlue,
                             value: 1,
                             groupValue: value.getSelectedOption,
                             onChanged: (val) {
@@ -173,6 +190,7 @@ class _AddBookState extends State<AddBook> {
               Consumer<BookFormProvider>(builder: (context, value, child) {
                 return InkWell(
                   onTap: () async {
+                    
                     BookModel cm = BookModel(
                         image: value.getPickedImageUrl,
                         name: _nameController.text,
@@ -180,12 +198,12 @@ class _AddBookState extends State<AddBook> {
                             ? "Customer"
                             : "Merchant",
                         address: _addressController.text,
+                        balance: "0",
                         mobile: _mobileController.text,
                         id: widget.id);
-                    widget.edit==true
+                    widget.edit == true
                         ? value.updateData(cm, widget.id!, context)
-                        :
-                    value.addData(cm, context);
+                        : value.addData(cm, context);
                   },
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 80),
@@ -195,7 +213,7 @@ class _AddBookState extends State<AddBook> {
                     decoration: BoxDecoration(
                         borderRadius:
                             const BorderRadius.all(Radius.circular(10)),
-                        color: redColor),
+                        color: blue),
                     child: const Center(
                         child: CommonText(
                       text: "Add Person",
@@ -211,5 +229,14 @@ class _AddBookState extends State<AddBook> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _nameController.dispose();
+    _addressController.dispose();
+    _mobileController.dispose();
   }
 }

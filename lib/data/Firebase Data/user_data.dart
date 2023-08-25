@@ -22,8 +22,8 @@ class UserData {
           type: e["type"],
           address: e["address"],
           mobile: e["mobile"],
-          image: e["image"]  
-          
+          image: e["image"],
+          balance: e["balance"]
           );
     }).toList();
     return books;

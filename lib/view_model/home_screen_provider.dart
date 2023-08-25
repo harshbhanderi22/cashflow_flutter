@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:khatabook/Models/book_model.dart';
 import 'package:khatabook/Utils/general_utils.dart';
+import 'package:khatabook/data/Firebase%20Data/book_data.dart';
 import 'package:khatabook/data/Firebase%20Data/user_data.dart';
 
 class HomePageProvider with ChangeNotifier {
@@ -55,5 +56,21 @@ class HomePageProvider with ChangeNotifier {
         print(e);
       }
     }
+  }
+
+  void deleteBook(dynamic id) {
+    print("Before deleteBook call");
+    try {
+      StoreBookDataToUser().deleteBook(id).whenComplete(() {
+        print("Delete 2");
+        _customers.removeWhere((book) => book.id == id);
+        notifyListeners(); // Moved inside the callback
+      });
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+    print("After deleteBook call");
   }
 }

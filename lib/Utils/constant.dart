@@ -8,6 +8,10 @@ const tagLineSignup =
 
 var redColor = Colors.red.shade800;
 
+var darkBlue = Colors.blue.shade900;
+var blue = Colors.blue.shade800;
+var lightBlue = Colors.blue.shade400;
+
 const String nameValidation =
     "Your name is the first thing we'll know about you, so let's get to know you!";
 const String emailValidation = " We need your email address to keep in touch.";

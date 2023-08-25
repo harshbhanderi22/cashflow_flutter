@@ -5,7 +5,8 @@ import 'package:khatabook/Utils/Routes/route_name.dart';
 import 'package:khatabook/Utils/Routes/routes.dart';
 import 'package:khatabook/Utils/constant.dart';
 import 'package:khatabook/View/home_screen.dart';
- import 'package:khatabook/view_model/Auth%20Providers/google_sign_in_provider.dart';
+import 'package:khatabook/View/login_screen.dart';
+import 'package:khatabook/view_model/Auth%20Providers/google_sign_in_provider.dart';
 import 'package:khatabook/view_model/Auth%20Providers/login_provider.dart';
 import 'package:khatabook/view_model/Auth%20Providers/signup_provider.dart';
 import 'package:khatabook/view_model/book_form_provider.dart';
@@ -15,7 +16,7 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-   runApp(const MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-              appBarTheme: AppBarTheme(color: redColor, elevation: 0),
+              appBarTheme: AppBarTheme(color: blue, elevation: 0),
               fontFamily: "popins"),
           onGenerateRoute: Routes.generateRoutes,
           home: StreamBuilder(

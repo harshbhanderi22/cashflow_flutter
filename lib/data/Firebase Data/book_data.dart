@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
 class StoreBookDataToUser {
-
   final firebaseFirestore = FirebaseFirestore.instance.collection("user");
   final dynamic mail = FirebaseAuth.instance.currentUser!.email;
 
@@ -27,14 +26,7 @@ class StoreBookDataToUser {
 
   Future<void> updateBook(Map<String, dynamic> data, String id) async {
     try {
-      QuerySnapshot queryShot =
-          await firebaseFirestore.doc(mail).collection("books").get();
-        
-      firebaseFirestore
-          .doc(mail)
-          .collection("books")
-          .doc((id).toString())
-          .set(data);
+      firebaseFirestore.doc(mail).collection("books").doc(id).set(data);
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -42,15 +34,12 @@ class StoreBookDataToUser {
     }
   }
 
-
-
   Future<void> deleteBook(dynamic id) async {
-    try {
-      await firebaseFirestore.doc(mail).collection("books").doc(id.toString()).delete();
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-    }
+    await firebaseFirestore
+        .doc(mail)
+        .collection("books")
+        .doc(id.toString())
+        .delete();
+    print("Dleting");
   }
 }

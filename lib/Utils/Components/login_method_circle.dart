@@ -16,7 +16,7 @@ class LoginMethodCircle extends StatelessWidget {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           border: Border.all(
-            color: Colors.red.shade200,
+            color: Colors.blue.shade200,
             width: 2.0,
           ),
         ),

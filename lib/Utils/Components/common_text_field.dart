@@ -28,7 +28,7 @@ class CommonTextField extends StatelessWidget {
           hintStyle: const TextStyle(fontSize: 14),
           prefixIcon: Icon(
             prefix,
-            color: Colors.red.shade400,
+            color: Colors.blue.shade400,
           ),
           suffixIcon: InkWell(
             onTap: () {
@@ -36,7 +36,7 @@ class CommonTextField extends StatelessWidget {
             },
             child: Icon(
               suffix,
-              color: Colors.red.shade400,
+              color: Colors.blue.shade400,
             ),
           ),
           hintText: hint),

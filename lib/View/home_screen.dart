@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:khatabook/Utils/Components/book_card.dart';
+import 'package:khatabook/Utils/Components/common_text.dart';
 import 'package:khatabook/Utils/Components/homepage_floating.dart';
 import 'package:khatabook/Utils/constant.dart';
 import 'package:khatabook/view_model/home_screen_provider.dart';
@@ -66,74 +67,116 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 20,
             ),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              height: 100,
+              // padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              height: 130,
               width: double.infinity,
               decoration: BoxDecoration(
+                  // color: Colors.white,
                   // color: redColor,
-                  gradient: LinearGradient(
-                      stops: const [0.5, 0.5],
-                      colors: [Colors.green.shade800, redColor],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      tileMode: TileMode.clamp),
-                  boxShadow: const [
-                    BoxShadow(
-                        color: Colors.black54,
-                        blurRadius: 10,
-                        offset: Offset(0, 5))
-                  ],
+                  // gradient: LinearGradient(
+                  //     stops: const [0.5, 0.5],
+                  //     colors: [Colors.green.shade800, redColor],
+                  //     begin: Alignment.centerLeft,
+                  //     end: Alignment.centerRight,
+                  //     tileMode: TileMode.clamp),
+                  // boxShadow: const [
+                  //   BoxShadow(
+                  //       color: Colors.black54,
+                  //       blurRadius: 5,
+                  //       offset: Offset(0, 2))
+                  // ],
                   borderRadius: BorderRadius.circular(20)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "Your Income",
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(12.0),
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 8.0),
+                      decoration: BoxDecoration(
+                          color: Colors.green.withOpacity(0.15),
+                          borderRadius: BorderRadius.circular(12.0)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const CircleAvatar(
+                            radius: 15.0,
+                            backgroundColor: Colors.white,
+                            child: Icon(
+                              Icons.arrow_downward,
+                              color: Colors.green,
+                            ),
+                          ),
+                          Expanded(child: Container()),
+                          Consumer<HomePageProvider>(
+                              builder: (context, value, child) {
+                            return Text(
+                              "₹ ${value.getIncome}",
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700),
+                            );
+                          }),
+                          const SizedBox(height: 3),
+                          Text(
+                            "Your Income",
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.black.withOpacity(0.7),
+                                fontWeight: FontWeight.w700),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 10),
-                      Consumer<HomePageProvider>(
-                          builder: (context, value, child) {
-                        return Text(
-                          "₹ ${value.getIncome}",
-                          style: const TextStyle(
-                              fontSize: 22,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700),
-                        );
-                      })
-                    ],
+                    ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "Your Expense",
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700),
+                  const SizedBox(
+                    width: 12.0,
+                  ),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(12.0),
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 8.0),
+                      decoration: BoxDecoration(
+                          color: Colors.red.withOpacity(0.15),
+                          borderRadius: BorderRadius.circular(12.0)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const CircleAvatar(
+                            radius: 15.0,
+                            backgroundColor: Colors.white,
+                            child: Icon(
+                              Icons.arrow_upward,
+                              color: Colors.red,
+                            ),
+                          ),
+                          Expanded(child: Container()),
+                          Consumer<HomePageProvider>(
+                              builder: (context, value, child) {
+                            return Text(
+                              "₹ ${value.getExpense}",
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700),
+                            );
+                          }),
+                          const SizedBox(height: 3),
+                          Text(
+                            "Your Expense",
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.black.withOpacity(0.7),
+                                fontWeight: FontWeight.w700),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 10),
-                      Consumer<HomePageProvider>(
-                          builder: (context, value, child) {
-                        return Text(
-                          "₹ ${value.getExpense}",
-                          style: const TextStyle(
-                              fontSize: 22,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700),
-                        );
-                      })
-                    ],
+                    ),
                   ),
                 ],
               ),
@@ -156,15 +199,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       ? const Center(
                           child: CircularProgressIndicator(),
                         )
-                      : ListView.builder(
-                          itemCount: value.getCustomerList.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return BookCard(
-                           
-                              bookModel: value.getCustomerList[index],
+                      : value.getCustomerList.isEmpty
+                          ? const Center(
+                              child: CommonText(text: "No Books Avaliable"),
+                            )
+                          : ListView.builder(
+                              itemCount: value.getCustomerList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return BookCard(
+                                  bookModel: value.getCustomerList[index],
+                                );
+                              },
                             );
-                          },
-                        );
                 })),
           ],
         ),
