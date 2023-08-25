@@ -46,7 +46,7 @@ class BookCard extends StatelessWidget {
                   child: Consumer<BookFormProvider>(
                     builder: (context, value, child) {
                       return value.getImageLoading
-                          ? CircularProgressIndicator()
+                          ? const CircularProgressIndicator()
                           : ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: bookModel.image == ""
@@ -128,11 +128,11 @@ class BookCard extends StatelessWidget {
                   if (value == 1) {
                     Navigator.of(context).pushNamed(RouteNames.addBook,
                         arguments: BookFormArguments(
-                            id: bookModel.id.toString(),
+                            id: bookModel.time.toString(),
                             bookModel: bookModel,
                             edit: true));
                   } else {
-                    val.deleteBook(bookModel.id);
+                    val.deleteBook(bookModel.time);
                   }
                 },
                 itemBuilder: (context) {

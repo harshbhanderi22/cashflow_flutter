@@ -6,23 +6,19 @@ class StoreBookDataToUser {
   final firebaseFirestore = FirebaseFirestore.instance.collection("user");
   final dynamic mail = FirebaseAuth.instance.currentUser!.email;
 
-  Future<void> addBook(Map<String, dynamic> data) async {
-    try {
-      QuerySnapshot queryShot =
-          await firebaseFirestore.doc(mail).collection("books").get();
-      int index = queryShot.docs.length;
-      data["id"] = index + 1;
-      firebaseFirestore
-          .doc(mail)
-          .collection("books")
-          .doc((index + 1).toString())
-          .set(data);
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
+Future<void> addBook(Map<String, dynamic> data) async {
+  try {
+    await firebaseFirestore
+        .doc(mail)
+        .collection("books")
+        .add(data); // Use .add() to automatically generate a unique ID
+  } catch (e) {
+    if (kDebugMode) {
+      print(e);
     }
   }
+}
+
 
   Future<void> updateBook(Map<String, dynamic> data, String id) async {
     try {
@@ -34,12 +30,13 @@ class StoreBookDataToUser {
     }
   }
 
-  Future<void> deleteBook(dynamic id) async {
-    await firebaseFirestore
-        .doc(mail)
-        .collection("books")
-        .doc(id.toString())
-        .delete();
-    print("Dleting");
-  }
+ Future<void> deleteBook(String docId) async {
+  await firebaseFirestore
+      .doc(mail)
+      .collection("books")
+      .doc(docId) // Use the unique document ID
+      .delete();
+  print("Deleting");
+}
+
 }

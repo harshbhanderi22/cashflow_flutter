@@ -5,7 +5,6 @@ import 'package:khatabook/Utils/Routes/route_name.dart';
 import 'package:khatabook/Utils/Routes/routes.dart';
 import 'package:khatabook/Utils/constant.dart';
 import 'package:khatabook/View/home_screen.dart';
-import 'package:khatabook/View/login_screen.dart';
 import 'package:khatabook/view_model/Auth%20Providers/google_sign_in_provider.dart';
 import 'package:khatabook/view_model/Auth%20Providers/login_provider.dart';
 import 'package:khatabook/view_model/Auth%20Providers/signup_provider.dart';

@@ -59,11 +59,9 @@ class HomePageProvider with ChangeNotifier {
   }
 
   void deleteBook(dynamic id) {
-    print("Before deleteBook call");
-    try {
+     try {
       StoreBookDataToUser().deleteBook(id).whenComplete(() {
-        print("Delete 2");
-        _customers.removeWhere((book) => book.id == id);
+         _customers.removeWhere((book) => book.id == id);
         notifyListeners(); // Moved inside the callback
       });
     } catch (e) {
@@ -71,6 +69,5 @@ class HomePageProvider with ChangeNotifier {
         print(e);
       }
     }
-    print("After deleteBook call");
-  }
+   }
 }

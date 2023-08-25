@@ -34,7 +34,7 @@ class _AddBookState extends State<AddBook> {
     }
   }
 
-  late double balance;
+    double balance = 0;
 
   Future<void> getBalance() async {
     DocumentSnapshot snapshot = await FirebaseFirestore.instance
@@ -190,6 +190,8 @@ class _AddBookState extends State<AddBook> {
               Consumer<BookFormProvider>(builder: (context, value, child) {
                 return InkWell(
                   onTap: () async {
+
+                    DateTime currentTime = await DateTime.now();
                     
                     BookModel cm = BookModel(
                         image: value.getPickedImageUrl,
@@ -198,11 +200,23 @@ class _AddBookState extends State<AddBook> {
                             ? "Customer"
                             : "Merchant",
                         address: _addressController.text,
-                        balance: "0",
+                        balance: balance.toString(),
+                        mobile: _mobileController.text,
+                        time: currentTime.toString(),
+                        id: widget.id);
+
+                        BookModel cm2 = BookModel(
+                        image: value.getPickedImageUrl,
+                        name: _nameController.text,
+                        type: value.getSelectedOption == 0
+                            ? "Customer"
+                            : "Merchant",
+                        address: _addressController.text,
+                        balance: balance.toString(),
                         mobile: _mobileController.text,
                         id: widget.id);
                     widget.edit == true
-                        ? value.updateData(cm, widget.id!, context)
+                        ? value.updateData(cm2, widget.id!, context)
                         : value.addData(cm, context);
                   },
                   child: Container(

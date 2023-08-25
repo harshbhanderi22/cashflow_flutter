@@ -195,15 +195,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 flex: 1,
                 child: Consumer<HomePageProvider>(
                     builder: (context, value, child) {
-                  return value.getLoading
-                      ? const Center(
+                  if (value.getLoading) {
+                    return const Center(
                           child: CircularProgressIndicator(),
-                        )
-                      : value.getCustomerList.isEmpty
-                          ? const Center(
+                        );
+                  } else {
+                    if (value.getCustomerList.isEmpty) {
+                      return const Center(
                               child: CommonText(text: "No Books Avaliable"),
-                            )
-                          : ListView.builder(
+                            );
+                    } else {
+                      return ListView.builder(
                               itemCount: value.getCustomerList.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return BookCard(
@@ -211,6 +213,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 );
                               },
                             );
+                    }
+                  }
                 })),
           ],
         ),
