@@ -13,7 +13,7 @@ class UserData {
     final user = FirebaseAuth.instance.currentUser!.email;
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
     final QuerySnapshot snapshot =
-        await firestore.collection("user").doc(user!).collection("books").orderBy("time").get();
+        await firestore.collection("user").doc(user!).collection("books").orderBy("id").get();
 
     dynamic books = snapshot.docs.map((e) {
       return BookModel(

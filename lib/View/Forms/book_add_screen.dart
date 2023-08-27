@@ -8,18 +8,18 @@ import 'package:khatabook/Utils/general_utils.dart';
 import 'package:khatabook/view_model/book_form_provider.dart';
 import 'package:provider/provider.dart';
 
-class AddBook extends StatefulWidget {
+class AddBookScreen extends StatefulWidget {
   final BookModel? bookModel;
   final bool edit;
   final String? id;
 
-  const AddBook({super.key, this.bookModel, required this.edit, this.id});
+  const AddBookScreen({super.key, this.bookModel, required this.edit, this.id});
 
   @override
-  State<AddBook> createState() => _AddBookState();
+  State<AddBookScreen> createState() => _AddBookScreenState();
 }
 
-class _AddBookState extends State<AddBook> {
+class _AddBookScreenState extends State<AddBookScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _mobileController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
@@ -34,7 +34,7 @@ class _AddBookState extends State<AddBook> {
     }
   }
 
-    double balance = 0;
+  double balance = 0;
 
   Future<void> getBalance() async {
     DocumentSnapshot snapshot = await FirebaseFirestore.instance
@@ -74,7 +74,7 @@ class _AddBookState extends State<AddBook> {
                                   size: 36,
                                 )
                               : value.getImageLoading
-                                  ? CircularProgressIndicator()
+                                  ? const CircularProgressIndicator()
                                   : Image.file(
                                       value.getPickedImage!,
                                       fit: BoxFit.cover,
@@ -190,9 +190,8 @@ class _AddBookState extends State<AddBook> {
               Consumer<BookFormProvider>(builder: (context, value, child) {
                 return InkWell(
                   onTap: () async {
-
                     DateTime currentTime = await DateTime.now();
-                    
+
                     BookModel cm = BookModel(
                         image: value.getPickedImageUrl,
                         name: _nameController.text,
@@ -202,10 +201,9 @@ class _AddBookState extends State<AddBook> {
                         address: _addressController.text,
                         balance: balance.toString(),
                         mobile: _mobileController.text,
-                        time: currentTime.toString(),
-                        id: widget.id);
+                        id: currentTime.toString());
 
-                        BookModel cm2 = BookModel(
+                    BookModel cm2 = BookModel(
                         image: value.getPickedImageUrl,
                         name: _nameController.text,
                         type: value.getSelectedOption == 0
@@ -216,7 +214,7 @@ class _AddBookState extends State<AddBook> {
                         mobile: _mobileController.text,
                         id: widget.id);
                     widget.edit == true
-                        ? value.updateData(cm2, widget.id!, context)
+                        ? value.updateData(cm2, widget.id, context)
                         : value.addData(cm, context);
                   },
                   child: Container(
@@ -228,13 +226,15 @@ class _AddBookState extends State<AddBook> {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(10)),
                         color: blue),
-                    child: const Center(
-                        child: CommonText(
-                      text: "Add Person",
-                      fontsize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    )),
+                    child: Center(
+                        child: value.getSubmitLoading
+                            ? const CircularProgressIndicator()
+                            : const CommonText(
+                                text: "Add Person",
+                                fontsize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              )),
                   ),
                 );
               })

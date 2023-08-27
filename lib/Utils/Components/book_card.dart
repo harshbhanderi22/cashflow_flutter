@@ -5,7 +5,6 @@ import 'package:khatabook/Utils/Components/common_text.dart';
 import 'package:khatabook/Utils/Routes/Arguments/book_form_argument.dart';
 import 'package:khatabook/Utils/Routes/route_name.dart';
 import 'package:khatabook/Utils/general_utils.dart';
-import 'package:khatabook/data/Firebase%20Data/book_data.dart';
 import 'package:khatabook/view_model/book_form_provider.dart';
 import 'package:khatabook/view_model/home_screen_provider.dart';
 import 'package:provider/provider.dart';
@@ -19,9 +18,9 @@ class BookCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 100,
-      width: double.infinity,
+      width: GeneralUtils.getWidth(context),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      margin: const EdgeInsets.only(bottom: 20, left: 10, right: 10),
+      margin: const EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           boxShadow: const [
@@ -30,7 +29,6 @@ class BookCard extends StatelessWidget {
           ],
           color: Colors.grey.shade100),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
@@ -66,26 +64,29 @@ class BookCard extends StatelessWidget {
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    child: SizedBox(
-                      width: GeneralUtils.getWidth(context) / 3,
-                      child: CommonText(
-                        text: bookModel.name,
-                        fontsize: 17,
-                        fontWeight: FontWeight.bold,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: GeneralUtils.getWidth(context) / 2,
+                        child: CommonText(
+                          text: bookModel.name,
+                          fontsize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
+                      const SizedBox(
+                        height: 2,
+                      ),
+                      CommonText(
+                        text: bookModel.type,
+                        fontsize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ],
                   ),
-                  const SizedBox(
-                    height: 2,
-                  ),
-                  CommonText(
-                    text: bookModel.type,
-                    fontsize: 14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  const Spacer(),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -128,11 +129,11 @@ class BookCard extends StatelessWidget {
                   if (value == 1) {
                     Navigator.of(context).pushNamed(RouteNames.addBook,
                         arguments: BookFormArguments(
-                            id: bookModel.time.toString(),
+                            id: bookModel.id,
                             bookModel: bookModel,
                             edit: true));
                   } else {
-                    val.deleteBook(bookModel.time);
+                    val.deleteBook(bookModel.id);
                   }
                 },
                 itemBuilder: (context) {

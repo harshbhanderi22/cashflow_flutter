@@ -17,11 +17,13 @@ class BookFormProvider with ChangeNotifier {
   String _pickedImageUrl = "";
   File? _imageFile;
   bool _loading = false;
+  bool _submitLoading = false;
 
   int get getSelectedOption => _selectedOption;
   String get getPickedImageUrl => _pickedImageUrl;
   File? get getPickedImage => _imageFile;
   bool get getImageLoading => _loading;
+  bool get getSubmitLoading => _submitLoading;
 
   void setSelectedOption(int value) {
     _selectedOption = value;
@@ -40,6 +42,11 @@ class BookFormProvider with ChangeNotifier {
 
   void setImageLoading(bool value) {
     _loading = value;
+    notifyListeners();
+  }
+
+  void setSubmitLoading(bool value) {
+    _submitLoading = value;
     notifyListeners();
   }
 
@@ -72,23 +79,27 @@ class BookFormProvider with ChangeNotifier {
   }
 
   void addData(BookModel bookModel, BuildContext context) {
+    setSubmitLoading(true);
     try {
       StoreBookDataToUser().addBook(bookModel.toMap()).whenComplete(() {
         Navigator.of(context).pushNamed(RouteNames.home);
         setPickedImage(null);
         setSelectedImageUrl("");
-        
       });
+      setSubmitLoading(false);
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
+      setSubmitLoading(false);
+      GeneralUtils.showToast("Failed To Add Data. Try Again!!");
+      Navigator.pop(context);
     }
   }
 
-  void updateData(BookModel bookModel, String id, BuildContext context) {
+  void updateData(BookModel bookModel, String? id, BuildContext context) {
     try {
-      StoreBookDataToUser().updateBook(bookModel.toMap(), id).whenComplete(() {
+      StoreBookDataToUser().updateBook(bookModel.toMap(), id!).whenComplete(() {
         Navigator.of(context).pushNamed(RouteNames.home);
       });
     } catch (e) {

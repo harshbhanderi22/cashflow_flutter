@@ -9,16 +9,15 @@ class BookModel {
   final String mobile;
   final dynamic id;
   final String balance;
-  final String? time;
-  BookModel(
-      {required this.name,
-      required this.type,
-      required this.address,
-      this.image,
-      required this.balance,
-      required this.mobile,
-      required this.id,
-      this.time});
+  BookModel({
+    required this.name,
+    required this.type,
+    required this.address,
+    this.image,
+    required this.balance,
+    required this.mobile,
+      this.id,
+  });
 
   BookModel copyWith(
       {String? name,
@@ -34,7 +33,6 @@ class BookModel {
       balance: balance ?? this.balance,
       type: type ?? this.type,
       address: address ?? this.address,
-      time: time ?? this.time,
       image: image ?? this.image,
       mobile: mobile ?? this.mobile,
       id: id ?? this.id,
@@ -49,7 +47,7 @@ class BookModel {
       'image': image,
       'mobile': mobile,
       'balance': balance,
-      'time': time
+      'id': id
     };
   }
 
@@ -61,7 +59,6 @@ class BookModel {
       address: map['address'] as String,
       image: map['image'] != null ? map['image'] as String : null,
       mobile: map['mobile'] as String,
-      time: map['time'] as String,
       id: map['id'] as dynamic,
     );
   }
@@ -73,7 +70,7 @@ class BookModel {
 
   @override
   String toString() {
-    return 'BookModel(name: $name,balance: $balance,time:$time, type: $type, address: $address, image: $image, mobile: $mobile, id: $id)';
+    return 'BookModel(name: $name,balance: $balance, type: $type, address: $address, image: $image, mobile: $mobile, id: $id)';
   }
 
   @override
@@ -86,8 +83,7 @@ class BookModel {
         other.balance == balance &&
         other.image == image &&
         other.mobile == mobile &&
-        other.id == id &&
-        other.time == time;
+        other.id == id;
   }
 
   @override
@@ -98,7 +94,7 @@ class BookModel {
         image.hashCode ^
         mobile.hashCode ^
         balance.hashCode ^
-        time.hashCode ^
+     
         id.hashCode;
   }
 }

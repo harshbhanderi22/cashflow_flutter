@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:khatabook/Utils/Components/book_card.dart';
 import 'package:khatabook/Utils/Components/common_text.dart';
 import 'package:khatabook/Utils/Components/homepage_floating.dart';
-import 'package:khatabook/Utils/constant.dart';
+import 'package:khatabook/Utils/Routes/Arguments/transaction_list_argument.dart';
+import 'package:khatabook/Utils/Routes/route_name.dart';
 import 'package:khatabook/view_model/home_screen_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -14,12 +16,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  var name = "User";
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<HomePageProvider>(context, listen: false).fetchCustomerList();
     });
+    getName();
+  }
+
+  void getName() async {
+    name = FirebaseAuth.instance.currentUser!.displayName!;
   }
 
   @override
@@ -70,32 +78,17 @@ class _HomeScreenState extends State<HomeScreen> {
               // padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               height: 130,
               width: double.infinity,
-              decoration: BoxDecoration(
-                  // color: Colors.white,
-                  // color: redColor,
-                  // gradient: LinearGradient(
-                  //     stops: const [0.5, 0.5],
-                  //     colors: [Colors.green.shade800, redColor],
-                  //     begin: Alignment.centerLeft,
-                  //     end: Alignment.centerRight,
-                  //     tileMode: TileMode.clamp),
-                  // boxShadow: const [
-                  //   BoxShadow(
-                  //       color: Colors.black54,
-                  //       blurRadius: 5,
-                  //       offset: Offset(0, 2))
-                  // ],
-                  borderRadius: BorderRadius.circular(20)),
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(20)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
                     child: Container(
                       padding: const EdgeInsets.all(12.0),
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 8.0, vertical: 8.0),
+                      margin: const EdgeInsets.symmetric(vertical: 8.0),
                       decoration: BoxDecoration(
-                          color: Colors.green.withOpacity(0.15),
+                          color: Colors.green.withOpacity(0.3),
                           borderRadius: BorderRadius.circular(12.0)),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,10 +131,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   Expanded(
                     child: Container(
                       padding: const EdgeInsets.all(12.0),
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 8.0, vertical: 8.0),
+                      margin: const EdgeInsets.symmetric(vertical: 8.0),
                       decoration: BoxDecoration(
-                          color: Colors.red.withOpacity(0.15),
+                          color: Colors.red.withOpacity(0.3),
                           borderRadius: BorderRadius.circular(12.0)),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -197,22 +189,30 @@ class _HomeScreenState extends State<HomeScreen> {
                     builder: (context, value, child) {
                   if (value.getLoading) {
                     return const Center(
-                          child: CircularProgressIndicator(),
-                        );
+                      child: CircularProgressIndicator(),
+                    );
                   } else {
                     if (value.getCustomerList.isEmpty) {
                       return const Center(
-                              child: CommonText(text: "No Books Avaliable"),
-                            );
+                        child: CommonText(text: "No Books Avaliable"),
+                      );
                     } else {
                       return ListView.builder(
-                              itemCount: value.getCustomerList.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return BookCard(
-                                  bookModel: value.getCustomerList[index],
-                                );
-                              },
-                            );
+                        itemCount: value.getCustomerList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return InkWell(
+                            onTap: () {
+                              Navigator.of(context).pushNamed(
+                                  RouteNames.transactionList,
+                                  arguments: TransactionListArgument(
+                                      bookModel: value.getCustomerList[index]));
+                            },
+                            child: BookCard(
+                              bookModel: value.getCustomerList[index],
+                            ),
+                          );
+                        },
+                      );
                     }
                   }
                 })),
