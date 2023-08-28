@@ -1,12 +1,15 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:khatabook/Utils/Components/common_button.dart';
+import 'package:provider/provider.dart';
+
 import 'package:khatabook/Models/book_model.dart';
 import 'package:khatabook/Utils/Components/common_form_field.dart';
 import 'package:khatabook/Utils/Components/common_text.dart';
 import 'package:khatabook/Utils/constant.dart';
 import 'package:khatabook/Utils/general_utils.dart';
 import 'package:khatabook/view_model/book_form_provider.dart';
-import 'package:provider/provider.dart';
 
 class AddBookScreen extends StatefulWidget {
   final BookModel? bookModel;
@@ -191,7 +194,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
                 return InkWell(
                   onTap: () async {
                     DateTime currentTime = await DateTime.now();
-
                     BookModel cm = BookModel(
                         image: value.getPickedImageUrl,
                         name: _nameController.text,
@@ -217,24 +219,13 @@ class _AddBookScreenState extends State<AddBookScreen> {
                         ? value.updateData(cm2, widget.id, context)
                         : value.addData(cm, context);
                   },
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 80),
-                    height: 50,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
-                    decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10)),
-                        color: blue),
+                  child: CommonButton(
                     child: Center(
                         child: value.getSubmitLoading
                             ? const CircularProgressIndicator()
-                            : const CommonText(
-                                text: "Add Person",
-                                fontsize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              )),
+                            : CommonButtonText(
+                              label: "Add Book",
+                            )),
                   ),
                 );
               })
@@ -254,3 +245,5 @@ class _AddBookScreenState extends State<AddBookScreen> {
     _mobileController.dispose();
   }
 }
+
+

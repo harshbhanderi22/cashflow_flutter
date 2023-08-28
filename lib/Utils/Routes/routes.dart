@@ -3,7 +3,7 @@ import 'package:khatabook/Utils/Routes/Arguments/book_form_argument.dart';
 import 'package:khatabook/Utils/Routes/Arguments/transaction_list_argument.dart';
 import 'package:khatabook/Utils/Routes/route_name.dart';
 import 'package:khatabook/View/Forms/book_add_screen.dart';
-import 'package:khatabook/View/add_entry_screen.dart';
+import 'package:khatabook/View/Forms/add_entry_screen.dart';
 import 'package:khatabook/View/home_screen.dart';
 import 'package:khatabook/View/login_screen.dart';
 import 'package:khatabook/View/sign_up_screen.dart';
