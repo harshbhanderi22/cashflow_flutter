@@ -1,7 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:khatabook/Models/book_model.dart';
 import 'package:khatabook/Models/transaction_model.dart';
+import 'package:khatabook/Utils/Routes/Arguments/transaction_list_argument.dart';
+import 'package:khatabook/Utils/Routes/route_name.dart';
 import 'package:khatabook/Utils/general_utils.dart';
+import 'package:khatabook/View/transaction_list.dart';
 import 'package:khatabook/data/Firebase%20Data/transaction_data.dart';
 
 class TransactionListProvider with ChangeNotifier {
@@ -14,6 +18,10 @@ class TransactionListProvider with ChangeNotifier {
   bool _loading = false;
   List _transactions = [];
   bool _fetchLoading = false;
+  String _id = "";
+  double _totalIncome = 0;
+  double _totalCost = 0;
+  bool _balanceLoading = false;
 
   final List<String> _incomeCategoryList = [
     "Product Sales",
@@ -50,11 +58,25 @@ class TransactionListProvider with ChangeNotifier {
   bool get getLoading => _loading;
   bool get getFetchLoading => _fetchLoading;
   List get getTransactions => _transactions;
+  String get getId => _id;
+  double get getTotalIncome => _totalIncome;
+  double get getTotalCost => _totalCost;
+  bool get getBalanceLoading => _balanceLoading;
 
   void setTransactionList(List<TransactionModel> value) {
     _transactions.clear();
     _transactions.addAll(value);
     _transactions = _transactions.toSet().toList();
+    notifyListeners();
+  }
+
+  void setBalanceLoading(bool value) {
+    _balanceLoading = value;
+    notifyListeners();
+  }
+
+  void setId() {
+    _id = DateTime.now().toString();
     notifyListeners();
   }
 
@@ -103,6 +125,14 @@ class TransactionListProvider with ChangeNotifier {
     if (picked != null) setDate("${picked.day}/${picked.month}/${picked.year}");
   }
 
+  Future<void> getBalance(String id, BuildContext context) async {
+    setBalanceLoading(true);
+    _totalIncome = await TransactionData().calculateTotalSum(id, context);
+    _totalCost = await TransactionData().calculateTotatCost(id, context);
+    setBalanceLoading(false);
+    notifyListeners();
+  }
+
   Future<void> selectTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
@@ -129,6 +159,38 @@ class TransactionListProvider with ChangeNotifier {
     } catch (e) {
       setFetchLoading(false);
 
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
+
+  void addTransaction(BookModel bookModel, TransactionModel transactionModel,
+      String id, BuildContext context) {
+    setLoading(true);
+    try {
+      TransactionData().addData(transactionModel.toMap(), id).whenComplete(() {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => TransactionListScreen(bookModel: bookModel)));
+      });
+      setLoading(false);
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      GeneralUtils.showToast("Failed To Add Data. Try Again!!");
+      Navigator.pop(context);
+    }
+  }
+
+  void deleteTransaction(String docId, dynamic id, BuildContext context) {
+    try {
+      TransactionData().deleteBook(docId, id).whenComplete(() {
+        _transactions.removeWhere((book) => book.id == id);
+        getBalance(docId, context);
+        notifyListeners(); // Moved inside the callback
+      });
+    } catch (e) {
       if (kDebugMode) {
         print(e);
       }

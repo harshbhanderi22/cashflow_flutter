@@ -1,11 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+  
 class TransactionModel {
   String title;
   String category;
-  String cost;
-  String total;
+  double cost;
+  double total;
   String date;
   String time;
   String id;
@@ -22,8 +23,8 @@ class TransactionModel {
   TransactionModel copyWith({
     String? title,
     String? category,
-    String? cost,
-    String? total,
+    double? cost,
+    double? total,
     String? date,
     String? time,
     String? id,
@@ -55,8 +56,8 @@ class TransactionModel {
     return TransactionModel(
       title: map['title'] as String,
       category: map['category'] as String,
-      cost: map['cost'] as String,
-      total: map['total'] as String,
+      cost: map['cost'] as double,
+      total: map['total'] as double,
       date: map['date'] as String,
       time: map['time'] as String,
       id: map['id'] as String,
@@ -65,8 +66,7 @@ class TransactionModel {
 
   String toJson() => json.encode(toMap());
 
-  factory TransactionModel.fromJson(String source) =>
-      TransactionModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory TransactionModel.fromJson(String source) => TransactionModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -76,24 +76,25 @@ class TransactionModel {
   @override
   bool operator ==(covariant TransactionModel other) {
     if (identical(this, other)) return true;
-
-    return other.title == title &&
-        other.category == category &&
-        other.cost == cost &&
-        other.total == total &&
-        other.date == date &&
-        other.time == time &&
-        other.id == id;
+  
+    return 
+      other.title == title &&
+      other.category == category &&
+      other.cost == cost &&
+      other.total == total &&
+      other.date == date &&
+      other.time == time &&
+      other.id == id;
   }
 
   @override
   int get hashCode {
     return title.hashCode ^
-        category.hashCode ^
-        cost.hashCode ^
-        total.hashCode ^
-        date.hashCode ^
-        time.hashCode ^
-        id.hashCode;
+      category.hashCode ^
+      cost.hashCode ^
+      total.hashCode ^
+      date.hashCode ^
+      time.hashCode ^
+      id.hashCode;
   }
 }

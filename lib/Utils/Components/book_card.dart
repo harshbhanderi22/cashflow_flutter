@@ -4,6 +4,7 @@ import 'package:khatabook/Models/book_model.dart';
 import 'package:khatabook/Utils/Components/common_text.dart';
 import 'package:khatabook/Utils/Routes/Arguments/book_form_argument.dart';
 import 'package:khatabook/Utils/Routes/route_name.dart';
+import 'package:khatabook/Utils/constant.dart';
 import 'package:khatabook/Utils/general_utils.dart';
 import 'package:khatabook/view_model/book_form_provider.dart';
 import 'package:khatabook/view_model/home_screen_provider.dart';
@@ -16,6 +17,7 @@ class BookCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var balance = bookModel.total - bookModel.cost;
     return Container(
       height: 100,
       width: GeneralUtils.getWidth(context),
@@ -48,9 +50,19 @@ class BookCard extends StatelessWidget {
                           : ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: bookModel.image == ""
-                                  ? Image.asset(
-                                      "assests/images/user3.png",
-                                      fit: BoxFit.cover,
+                                  ? Container(
+                                      decoration: BoxDecoration(
+                                          color: blue,
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(10))),
+                                      child: Center(
+                                        child: CommonText(
+                                          text: bookModel.name[0].toUpperCase(),
+                                          fontsize: 36,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
                                     )
                                   : Image.network(
                                       bookModel.image!,
@@ -70,7 +82,7 @@ class BookCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        width: GeneralUtils.getWidth(context) / 2,
+                        width: GeneralUtils.getWidth(context) / 3,
                         child: CommonText(
                           text: bookModel.name,
                           fontsize: 18,
@@ -113,8 +125,8 @@ class BookCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CommonText(
-                  text: bookModel.balance.toString(),
-                  color: Colors.green,
+                  text: balance.toString(),
+                  color: balance >= 0 ? Colors.green : Colors.red,
                   fontWeight: FontWeight.bold,
                   fontsize: 18,
                 )

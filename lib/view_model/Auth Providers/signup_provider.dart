@@ -1,8 +1,10 @@
 // ignore_for_file: unused_local_variable
 
+ 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:khatabook/Models/user_model.dart';
+import 'package:khatabook/Utils/Routes/route_name.dart';
 import 'package:khatabook/Utils/constant.dart';
 import 'package:khatabook/Utils/general_utils.dart';
 import 'package:khatabook/data/Firebase%20Data/user_data.dart';
@@ -26,8 +28,8 @@ class SignupProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void validateRegisterDetailsAndRegister(
-      String name, String email, String password, String confirmPassword) {
+  void validateRegisterDetailsAndRegister(String name, String email,
+      String password, String confirmPassword, BuildContext context) {
     if (name.isEmpty) {
       GeneralUtils.showToast(nameValidation);
     } else if (email.isEmpty) {
@@ -43,23 +45,27 @@ class SignupProvider with ChangeNotifier {
     } else if (confirmPassword != password) {
       GeneralUtils.showToast(passwordNotMatchValidation);
     } else {
-      registerUser(email, password);
-      UserModel userModel = UserModel(
-          name: FirebaseAuth.instance.currentUser!.displayName ?? name,
-          email: FirebaseAuth.instance.currentUser!.email ?? email,
-          image: FirebaseAuth.instance.currentUser!.photoURL);
-      UserData().addUser(userModel.toMap(), "user", email);
+      registerUser(email, password,name, context);
+      
     }
   }
 
-  Future<void> registerUser(String email, String password) async {
+  Future<void> registerUser(
+      String email, String password,String name, BuildContext context) async {
     setLoading(true);
     try {
       final credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) {
         setLoading(false);
+        UserModel userModel = UserModel(
+        total: 0,cost: 0,
+          name: name,
+          email: FirebaseAuth.instance.currentUser!.email ?? email,
+          image: FirebaseAuth.instance.currentUser!.photoURL);
+      UserData().addUser(userModel.toMap(), "user", email);
         GeneralUtils.showToast("User Created Successfully 🎉🎉");
+        Navigator.of(context).pushNamed(RouteNames.home);
       });
     } on FirebaseAuthException catch (e) {
       setLoading(false);

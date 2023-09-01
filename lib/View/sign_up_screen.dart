@@ -166,7 +166,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   _nameController.text,
                                   _emailController.text,
                                   _passwordController.text,
-                                  _confirmController.text);
+                                  _confirmController.text,context);
                             },
                             child: Container(
                               height: 50,

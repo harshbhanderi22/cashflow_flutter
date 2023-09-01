@@ -1,5 +1,9 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:khatabook/Models/transaction_model.dart';
+import 'package:provider/provider.dart';
+
+import 'package:khatabook/Models/book_model.dart';
 import 'package:khatabook/Utils/Components/all_dropdown.dart';
 import 'package:khatabook/Utils/Components/all_selecters.dart';
 import 'package:khatabook/Utils/Components/common_button.dart';
@@ -7,10 +11,13 @@ import 'package:khatabook/Utils/Components/common_form_field.dart';
 import 'package:khatabook/Utils/Components/common_text.dart';
 import 'package:khatabook/Utils/constant.dart';
 import 'package:khatabook/view_model/transaction_list_provider.dart';
-import 'package:provider/provider.dart';
 
 class AddEntryScreen extends StatefulWidget {
-  const AddEntryScreen({super.key});
+  BookModel bookModel;
+  AddEntryScreen({
+    Key? key,
+    required this.bookModel,
+  }) : super(key: key);
 
   @override
   State<AddEntryScreen> createState() => _AddEntryScreenState();
@@ -107,10 +114,28 @@ class _AddEntryScreenState extends State<AddEntryScreen> {
               height: 20,
             ),
             Consumer<TransactionListProvider>(builder: (context, value, child) {
-              return CommonButton(
-                  child: value.getLoading
-                      ? const CircularProgressIndicator()
-                      : CommonButtonText(label: "Add Transaction"));
+              return InkWell(
+                onTap: () {
+                  value.setId();
+                  TransactionModel transactionModel = TransactionModel(
+                      title: _title.text,
+                      category: value.getSelectedOption == 0
+                          ? value.getIncomeCategory[value.getSelectedIncome]
+                          : value.getExpenseCategory[value.getSelectedExpense],
+                      cost: double.tryParse(_cost.text) ?? 0,
+                      total: double.tryParse(_total.text) ?? 0,
+                      date: value.getDate,
+                      time: value.getTime,
+                      id: value.getId);
+                  value.addTransaction(
+                    widget.bookModel,
+                      transactionModel, widget.bookModel.id, context);
+                },
+                child: CommonButton(
+                    child: value.getLoading
+                        ? const CircularProgressIndicator()
+                        : CommonButtonText(label: "Add Transaction")),
+              );
             })
           ],
         ),

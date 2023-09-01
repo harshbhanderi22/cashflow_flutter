@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:khatabook/Models/book_model.dart';
 import 'package:khatabook/Utils/Components/common_text.dart';
+import 'package:khatabook/Utils/Routes/Arguments/add_transaction_argument.dart';
 import 'package:khatabook/Utils/Routes/route_name.dart';
 import 'package:khatabook/Utils/constant.dart';
 
 class TransactionFloating extends StatefulWidget {
-  const TransactionFloating({super.key});
+  final BookModel bookModel;
+
+  const TransactionFloating({super.key, required this.bookModel});
 
   @override
   State<TransactionFloating> createState() => _TransactionFloatingState();
@@ -17,7 +21,8 @@ class _TransactionFloatingState extends State<TransactionFloating> {
       onTap: () {
         // Navigator.of(context).pushNamed(RouteNames.addBook,
         //     arguments: BookFormArguments(edit: false));
-        Navigator.of(context).pushNamed(RouteNames.addEntry);
+        Navigator.of(context).pushNamed(RouteNames.addEntry,
+            arguments: AddEntryArguments(bookModel: widget.bookModel));
       },
       child: Container(
         height: 50,

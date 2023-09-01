@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:khatabook/Utils/Components/common_text.dart';
 import 'package:khatabook/Utils/constant.dart';
+import 'package:khatabook/Utils/general_utils.dart';
 
 class CommonButton extends StatelessWidget {
   Widget child;
@@ -15,11 +16,12 @@ class CommonButton extends StatelessWidget {
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 80),
         height: 50,
+        width: GeneralUtils.getWidth(context)/2,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(10)),
             color: blue),
-        child: child);
+        child: Center(child: child));
   }
 }
 

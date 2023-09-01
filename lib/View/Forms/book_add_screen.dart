@@ -37,7 +37,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
     }
   }
 
-  double balance = 0;
+  double total = 0;
+  double cost = 0;
 
   Future<void> getBalance() async {
     DocumentSnapshot snapshot = await FirebaseFirestore.instance
@@ -45,7 +46,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
         .doc("eZygQLXU4BFNvSkqd2v2")
         .get();
 
-    balance = snapshot.get('balance');
+    total = snapshot.get('total');
+    cost = snapshot.get('cost');
   }
 
   @override
@@ -201,7 +203,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
                             ? "Customer"
                             : "Merchant",
                         address: _addressController.text,
-                        balance: balance.toString(),
+                        total: total,
+                        cost: cost,
                         mobile: _mobileController.text,
                         id: currentTime.toString());
 
@@ -212,7 +215,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
                             ? "Customer"
                             : "Merchant",
                         address: _addressController.text,
-                        balance: balance.toString(),
+                        total: total,
+                        cost: cost,
                         mobile: _mobileController.text,
                         id: widget.id);
                     widget.edit == true
@@ -224,8 +228,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
                         child: value.getSubmitLoading
                             ? const CircularProgressIndicator()
                             : CommonButtonText(
-                              label: "Add Book",
-                            )),
+                                label: "Add Book",
+                              )),
                   ),
                 );
               })
@@ -245,5 +249,3 @@ class _AddBookScreenState extends State<AddBookScreen> {
     _mobileController.dispose();
   }
 }
-
-

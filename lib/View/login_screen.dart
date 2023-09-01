@@ -145,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             onTap: () {
                               value.validateLoginDetailsAndLogin(
                                   _emailController.text,
-                                  _passwordController.text);
+                                  _passwordController.text,context);
                             },
                             child: Container(
                               height: 50,

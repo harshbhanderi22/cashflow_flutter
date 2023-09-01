@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khatabook/Utils/Routes/Arguments/add_transaction_argument.dart';
 import 'package:khatabook/Utils/Routes/Arguments/book_form_argument.dart';
 import 'package:khatabook/Utils/Routes/Arguments/transaction_list_argument.dart';
 import 'package:khatabook/Utils/Routes/route_name.dart';
@@ -18,8 +19,12 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const SignUpScreen());
       case RouteNames.home:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
-          case RouteNames.addEntry:
-        return MaterialPageRoute(builder: (_) => const AddEntryScreen());
+       case RouteNames.addEntry:
+        final args = routeSettings.arguments as AddEntryArguments?;
+        return MaterialPageRoute(
+            builder: (_) => AddEntryScreen(
+                 
+                bookModel: args!.bookModel));
       case RouteNames.addBook:
         final args = routeSettings.arguments as BookFormArguments?;
         return MaterialPageRoute(

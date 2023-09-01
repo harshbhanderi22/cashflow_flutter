@@ -36,6 +36,8 @@ class StoreBookDataToUser {
         .collection("books")
         .doc(docId) // Use the unique document ID
         .delete();
-    print("Deleting");
+    //print("Deleting");
   }
+
+
 }

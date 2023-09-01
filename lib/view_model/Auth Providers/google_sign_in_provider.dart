@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:khatabook/Models/user_model.dart';
+import 'package:khatabook/data/Firebase%20Data/user_data.dart';
 
 class GoogleSingInProivder extends ChangeNotifier {
   final googlesignin = GoogleSignIn();
@@ -24,6 +26,14 @@ class GoogleSingInProivder extends ChangeNotifier {
     );
 
     await FirebaseAuth.instance.signInWithCredential(credential).then((value) {
+      UserModel userModel = UserModel(
+        total: 0,
+        cost: 0,
+          name: FirebaseAuth.instance.currentUser!.displayName,
+          email: FirebaseAuth.instance.currentUser!.email,
+          image: FirebaseAuth.instance.currentUser!.photoURL);
+      UserData().addUser(
+          userModel.toMap(), "user", FirebaseAuth.instance.currentUser!.email);
       Navigator.pushReplacementNamed(context, "home_screen");
     });
 
