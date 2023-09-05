@@ -84,10 +84,7 @@ class BookFormProvider with ChangeNotifier {
     setSubmitLoading(true);
     try {
       StoreBookDataToUser().addBook(bookModel.toMap()).whenComplete(() {
-        Navigator.of(context).popUntil((route) {
-          Provider.of<HomePageProvider>(context,listen: false).fetchCustomerList();
-          return true;
-        });
+        Navigator.of(context).pushReplacementNamed(RouteNames.home);
         setPickedImage(null);
         setSelectedImageUrl("");
       });
