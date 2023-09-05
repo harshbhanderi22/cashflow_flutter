@@ -1,21 +1,27 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
 class UserModel {
   String? name;
   String? email;
   String? image;
   double total;
   double cost;
+  List<String>? income_cat;
+  List<String>? expense_cat;
+  String? company_name;
   UserModel({
     this.name,
     this.email,
     this.image,
     required this.total,
     required this.cost,
+    this.income_cat,
+    this.expense_cat,
+    this.company_name,
   });
-
-   
 
   UserModel copyWith({
     String? name,
@@ -23,6 +29,9 @@ class UserModel {
     String? image,
     double? total,
     double? cost,
+    List<String>? income_cat,
+    List<String>? expense_cat,
+    String? company_name,
   }) {
     return UserModel(
       name: name ?? this.name,
@@ -30,6 +39,9 @@ class UserModel {
       image: image ?? this.image,
       total: total ?? this.total,
       cost: cost ?? this.cost,
+      income_cat: income_cat ?? this.income_cat,
+      expense_cat: expense_cat ?? this.expense_cat,
+      company_name: company_name ?? this.company_name,
     );
   }
 
@@ -40,6 +52,9 @@ class UserModel {
       'image': image,
       'total': total,
       'cost': cost,
+      'income_cat': income_cat,
+      'expense_cat': expense_cat,
+      'company_name': company_name,
     };
   }
 
@@ -50,6 +65,9 @@ class UserModel {
       image: map['image'] != null ? map['image'] as String : null,
       total: map['total'] as double,
       cost: map['cost'] as double,
+      income_cat: map['income_cat'] != null ? List<String>.from((map['income_cat'] as List<String>)) : null,
+      expense_cat: map['expense_cat'] != null ? List<String>.from((map['expense_cat'] as List<String>)) : null,
+      company_name: map['company_name'] != null ? map['company_name'] as String : null,
     );
   }
 
@@ -59,7 +77,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(name: $name, email: $email, image: $image, total: $total, cost: $cost)';
+    return 'UserModel(name: $name, email: $email, image: $image, total: $total, cost: $cost, income_cat: $income_cat, expense_cat: $expense_cat, company_name: $company_name)';
   }
 
   @override
@@ -71,7 +89,10 @@ class UserModel {
       other.email == email &&
       other.image == image &&
       other.total == total &&
-      other.cost == cost;
+      other.cost == cost &&
+      listEquals(other.income_cat, income_cat) &&
+      listEquals(other.expense_cat, expense_cat) &&
+      other.company_name == company_name;
   }
 
   @override
@@ -80,6 +101,9 @@ class UserModel {
       email.hashCode ^
       image.hashCode ^
       total.hashCode ^
-      cost.hashCode;
+      cost.hashCode ^
+      income_cat.hashCode ^
+      expense_cat.hashCode ^
+      company_name.hashCode;
   }
 }

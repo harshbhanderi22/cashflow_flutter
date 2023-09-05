@@ -1,9 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:khatabook/Models/transaction_model.dart';
 import 'package:provider/provider.dart';
 
 import 'package:khatabook/Models/book_model.dart';
+import 'package:khatabook/Models/transaction_model.dart';
 import 'package:khatabook/Utils/Components/all_dropdown.dart';
 import 'package:khatabook/Utils/Components/all_selecters.dart';
 import 'package:khatabook/Utils/Components/common_button.dart';
@@ -27,6 +27,7 @@ class _AddEntryScreenState extends State<AddEntryScreen> {
   final TextEditingController _title = TextEditingController();
   final TextEditingController _total = TextEditingController();
   final TextEditingController _cost = TextEditingController();
+  final TextEditingController _recieved = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +104,9 @@ class _AddEntryScreenState extends State<AddEntryScreen> {
                         CommonFormField(
                             controller: _total, hint: "Enter Total Income"),
                         CommonFormField(
-                            controller: _cost, hint: "Enter Cost On Income")
+                            controller: _cost, hint: "Enter Cost On Income"),
+                              CommonFormField(
+                            controller: _recieved, hint: "Enter Recieved Amount")
                       ],
                     )
                   : CommonFormField(controller: _cost, hint: "Enter Cost");
@@ -119,6 +122,7 @@ class _AddEntryScreenState extends State<AddEntryScreen> {
                   value.setId();
                   TransactionModel transactionModel = TransactionModel(
                       title: _title.text,
+                      recieved: double.tryParse(_recieved.text) ?? 0,
                       category: value.getSelectedOption == 0
                           ? value.getIncomeCategory[value.getSelectedIncome]
                           : value.getExpenseCategory[value.getSelectedExpense],
@@ -127,9 +131,8 @@ class _AddEntryScreenState extends State<AddEntryScreen> {
                       date: value.getDate,
                       time: value.getTime,
                       id: value.getId);
-                  value.addTransaction(
-                    widget.bookModel,
-                      transactionModel, widget.bookModel.id, context);
+                  value.addTransaction(widget.bookModel, transactionModel,
+                      widget.bookModel.id, context);
                 },
                 child: CommonButton(
                     child: value.getLoading

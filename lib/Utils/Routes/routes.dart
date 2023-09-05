@@ -7,6 +7,7 @@ import 'package:khatabook/View/Forms/book_add_screen.dart';
 import 'package:khatabook/View/Forms/add_entry_screen.dart';
 import 'package:khatabook/View/home_screen.dart';
 import 'package:khatabook/View/login_screen.dart';
+import 'package:khatabook/View/profile_screen.dart';
 import 'package:khatabook/View/sign_up_screen.dart';
 import 'package:khatabook/View/transaction_list.dart';
 
@@ -19,7 +20,9 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const SignUpScreen());
       case RouteNames.home:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
-       case RouteNames.addEntry:
+      case RouteNames.profile:
+        return MaterialPageRoute(builder: (_) => const ProfileScreen());
+      case RouteNames.addEntry:
         final args = routeSettings.arguments as AddEntryArguments?;
         return MaterialPageRoute(
             builder: (_) => AddEntryScreen(

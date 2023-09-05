@@ -16,7 +16,7 @@ class TransactionListProvider with ChangeNotifier {
   int _selectedExpense = 0;
   int _selectedOption = 0;
   bool _loading = false;
-  List _transactions = [];
+  List<TransactionModel> _transactions = [];
   bool _fetchLoading = false;
   String _id = "";
   double _totalIncome = 0;
@@ -57,7 +57,7 @@ class TransactionListProvider with ChangeNotifier {
   int get getSelectedOption => _selectedOption;
   bool get getLoading => _loading;
   bool get getFetchLoading => _fetchLoading;
-  List get getTransactions => _transactions;
+  List<TransactionModel> get getTransactions => _transactions;
   String get getId => _id;
   double get getTotalIncome => _totalIncome;
   double get getTotalCost => _totalCost;

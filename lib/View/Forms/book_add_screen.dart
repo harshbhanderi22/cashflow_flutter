@@ -184,6 +184,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
               CommonFormField(
                 controller: _mobileController,
                 hint: "Enter Mobile Number",
+                inputType: TextInputType.number,
               ),
               CommonFormField(
                 controller: _addressController,
@@ -195,7 +196,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
               Consumer<BookFormProvider>(builder: (context, value, child) {
                 return InkWell(
                   onTap: () async {
-                    DateTime currentTime = await DateTime.now();
+                    DateTime currentTime =   DateTime.now();
                     BookModel cm = BookModel(
                         image: value.getPickedImageUrl,
                         name: _nameController.text,

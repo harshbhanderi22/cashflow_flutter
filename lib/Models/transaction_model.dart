@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-  
 class TransactionModel {
   String title;
   String category;
@@ -10,6 +9,7 @@ class TransactionModel {
   String date;
   String time;
   String id;
+  double recieved;
   TransactionModel({
     required this.title,
     required this.category,
@@ -18,6 +18,7 @@ class TransactionModel {
     required this.date,
     required this.time,
     required this.id,
+    required this.recieved,
   });
 
   TransactionModel copyWith({
@@ -28,6 +29,7 @@ class TransactionModel {
     String? date,
     String? time,
     String? id,
+    double? recieved,
   }) {
     return TransactionModel(
       title: title ?? this.title,
@@ -37,6 +39,7 @@ class TransactionModel {
       date: date ?? this.date,
       time: time ?? this.time,
       id: id ?? this.id,
+      recieved: recieved ?? this.recieved,
     );
   }
 
@@ -49,6 +52,7 @@ class TransactionModel {
       'date': date,
       'time': time,
       'id': id,
+      'recieved': recieved,
     };
   }
 
@@ -61,6 +65,7 @@ class TransactionModel {
       date: map['date'] as String,
       time: map['time'] as String,
       id: map['id'] as String,
+      recieved: map['recieved'] as double,
     );
   }
 
@@ -70,7 +75,7 @@ class TransactionModel {
 
   @override
   String toString() {
-    return 'TransactionModel(title: $title, category: $category, cost: $cost, total: $total, date: $date, time: $time, id: $id)';
+    return 'TransactionModel(title: $title, category: $category, cost: $cost, total: $total, date: $date, time: $time, id: $id, recieved: $recieved)';
   }
 
   @override
@@ -84,7 +89,8 @@ class TransactionModel {
       other.total == total &&
       other.date == date &&
       other.time == time &&
-      other.id == id;
+      other.id == id &&
+      other.recieved == recieved;
   }
 
   @override
@@ -95,6 +101,7 @@ class TransactionModel {
       total.hashCode ^
       date.hashCode ^
       time.hashCode ^
-      id.hashCode;
+      id.hashCode ^
+      recieved.hashCode;
   }
 }

@@ -5,4 +5,5 @@ class RouteNames {
   static const addBook = "add_book_form";
   static const transactionList = "transaction_list";
   static const addEntry = "add_entry";
+  static const profile = "profile";
 }

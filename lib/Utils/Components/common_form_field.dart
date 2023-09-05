@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 class CommonFormField extends StatelessWidget {
   final TextEditingController controller;
   final String hint;
+  final TextInputType? inputType;
 
   const CommonFormField(
-      {super.key, required this.controller, required this.hint});
+      {super.key, required this.controller, required this.hint,this.inputType});
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +17,7 @@ class CommonFormField extends StatelessWidget {
           border: Border.all(width: 1, color: Colors.black),
           borderRadius: const BorderRadius.all(Radius.circular(10))),
       child: TextFormField(
+        keyboardType: inputType ?? TextInputType.text,
         controller: controller,
         cursorColor: Colors.grey,
         decoration: InputDecoration(border: InputBorder.none, hintText: hint),

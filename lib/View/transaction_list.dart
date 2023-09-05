@@ -1,17 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:khatabook/Helper/pdf_helper.dart';
 
 import 'package:khatabook/Models/book_model.dart';
-import 'package:khatabook/Models/transaction_model.dart';
 import 'package:khatabook/Utils/Components/balance_card.dart';
 import 'package:khatabook/Utils/Components/common_text.dart';
 import 'package:khatabook/Utils/Components/transaction_card.dart';
 import 'package:khatabook/Utils/Components/transaction_floating.dart';
 import 'package:khatabook/Utils/constant.dart';
 import 'package:khatabook/Utils/general_utils.dart';
-import 'package:khatabook/data/Firebase%20Data/transaction_data.dart';
-import 'package:khatabook/view_model/home_screen_provider.dart';
+import 'package:khatabook/view_model/profile_provider.dart';
 import 'package:khatabook/view_model/transaction_list_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -35,7 +33,8 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
       Provider.of<TransactionListProvider>(context, listen: false)
           .fetchTransactions(widget.bookModel.id);
       Provider.of<TransactionListProvider>(context, listen: false)
-          .getBalance(widget.bookModel.id,context);
+          .getBalance(widget.bookModel.id, context);
+      Provider.of<ProfileProvider>(context, listen: false).fetchUserModel();
     });
     super.initState();
   }
@@ -53,23 +52,44 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Icon(
-                    Icons.arrow_back_ios,
-                  ),
+                Row(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Icon(
+                        Icons.arrow_back_ios,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    CommonText(
+                      text: "${widget.bookModel.name}'s Book",
+                      fontsize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ],
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-                CommonText(
-                  text: "${widget.bookModel.name}'s Book",
-                  fontsize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+                Consumer<TransactionListProvider>(
+                    builder: (context, value, child) {
+                  return InkWell(
+                    onTap: () {
+                      //TODO: Add PDF Option
+                      PdfHelper().generateTransactionPdf(
+                          value.getTransactions,
+                          Provider.of<ProfileProvider>(context, listen: false)
+                              .getUserModel, widget.bookModel, Provider.of<ProfileProvider>(context).getBussinessName);
+                    },
+                    child: const Icon(
+                      Icons.print,
+                      size: 28,
+                    ),
+                  );
+                })
               ],
             ),
             const SizedBox(
@@ -128,7 +148,7 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
                             transactionModel: value.getTransactions[index],
                             onDelete: () {
                               value.deleteTransaction(widget.bookModel.id,
-                                  value.getTransactions[index].id,context);
+                                  value.getTransactions[index].id, context);
                             },
                           );
                         },

@@ -49,6 +49,7 @@ class TransactionData {
           total: e["total"],
           date: e["date"],
           time: e["time"],
+          recieved: e["recieved"],
           id: e["id"]);
     }).toList();
 
@@ -85,6 +86,8 @@ class TransactionData {
     List<TransactionModel> transactions = snapshot.docs.map((e) {
       return TransactionModel(
           title: e["title"],
+          recieved: e["recieved"],
+
           category: e["category"],
           cost: e["cost"],
           total: e["total"],
@@ -160,6 +163,8 @@ class TransactionData {
     dynamic transactions = snapshot.docs.map((e) {
       return TransactionModel(
           title: e["title"],
+          recieved: e["recieved"],
+
           category: e["category"],
           cost: e["cost"],
           total: e["total"],

@@ -32,92 +32,75 @@ class BookCard extends StatelessWidget {
           color: Colors.grey.shade100),
       child: Row(
         children: [
-          Row(
+          Consumer<BookFormProvider>(
+            builder: (context, value, child) {
+              return value.getImageLoading
+                  ? const CircularProgressIndicator()
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: bookModel.image == ""
+                          ? CircleAvatar(
+                              radius: 30,
+                              backgroundColor: blue,
+                              child: CommonText(
+                                text: bookModel.name[0].toUpperCase(),
+                                fontsize: 36,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            )
+                          : CircleAvatar(
+                              radius: 30,
+                              backgroundColor: blue,
+                              child: Image.network(
+                                bookModel.image!,
+                                fit: BoxFit.cover,
+                              ),
+                            ));
+            },
+          ),
+          const SizedBox(
+            width: 20,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                  margin: const EdgeInsets.all(5),
-                  height: 70,
-                  width: 70,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(width: 1, color: Colors.black),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Consumer<BookFormProvider>(
-                    builder: (context, value, child) {
-                      return value.getImageLoading
-                          ? const CircularProgressIndicator()
-                          : ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: bookModel.image == ""
-                                  ? Container(
-                                      decoration: BoxDecoration(
-                                          color: blue,
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(10))),
-                                      child: Center(
-                                        child: CommonText(
-                                          text: bookModel.name[0].toUpperCase(),
-                                          fontsize: 36,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    )
-                                  : Image.network(
-                                      bookModel.image!,
-                                      fit: BoxFit.cover,
-                                    ),
-                            );
-                    },
-                  )),
-              const SizedBox(
-                width: 10,
-              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: GeneralUtils.getWidth(context) / 3,
-                        child: CommonText(
-                          text: bookModel.name,
-                          fontsize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 2,
-                      ),
-                      CommonText(
-                        text: bookModel.type,
-                        fontsize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ],
+                  SizedBox(
+                    width: GeneralUtils.getWidth(context) / 3,
+                    child: CommonText(
+                      text: bookModel.name,
+                      fontsize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assests/images/location.png",
-                        height: 12,
-                        width: 12,
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      CommonText(
-                        text: bookModel.address,
-                        fontsize: 12,
-                      )
-                    ],
-                  )
+                  CommonText(
+                    text: bookModel.type,
+                    fontsize: 12,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ],
               ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assests/images/location.png",
+                    height: 12,
+                    width: 12,
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  CommonText(
+                    text: bookModel.address,
+                    fontsize: 12,
+                  )
+                ],
+              )
             ],
           ),
           Expanded(

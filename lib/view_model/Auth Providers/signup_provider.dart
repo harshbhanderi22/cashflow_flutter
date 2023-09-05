@@ -1,8 +1,8 @@
 // ignore_for_file: unused_local_variable
 
- 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:khatabook/Models/user_model.dart';
 import 'package:khatabook/Utils/Routes/route_name.dart';
 import 'package:khatabook/Utils/constant.dart';
@@ -45,13 +45,12 @@ class SignupProvider with ChangeNotifier {
     } else if (confirmPassword != password) {
       GeneralUtils.showToast(passwordNotMatchValidation);
     } else {
-      registerUser(email, password,name, context);
-      
+      registerUser(email, password, name, context);
     }
   }
 
   Future<void> registerUser(
-      String email, String password,String name, BuildContext context) async {
+      String email, String password, String name, BuildContext context) async {
     setLoading(true);
     try {
       final credential = await FirebaseAuth.instance
@@ -59,11 +58,12 @@ class SignupProvider with ChangeNotifier {
           .then((value) {
         setLoading(false);
         UserModel userModel = UserModel(
-        total: 0,cost: 0,
-          name: name,
-          email: FirebaseAuth.instance.currentUser!.email ?? email,
-          image: FirebaseAuth.instance.currentUser!.photoURL);
-      UserData().addUser(userModel.toMap(), "user", email);
+            total: 0,
+            cost: 0,
+            name: name,
+            email: FirebaseAuth.instance.currentUser!.email ?? email,
+            image: FirebaseAuth.instance.currentUser!.photoURL);
+        UserData().addUser(userModel.toMap(), "user", email);
         GeneralUtils.showToast("User Created Successfully 🎉🎉");
         Navigator.of(context).pushNamed(RouteNames.home);
       });
@@ -80,6 +80,54 @@ class SignupProvider with ChangeNotifier {
   }
 
   Future<void> signOut() async {
-    await FirebaseAuth.instance.signOut();
+    // Get the current user
+    final User? user = FirebaseAuth.instance.currentUser;
+    final googlesignin = GoogleSignIn();
+
+// Check if the user is logged in
+    if (user != null) {
+      // Get the authentication provider
+      final String provider = user.providerData[0].providerId;
+      //print(user.providerData);
+      GeneralUtils.showToast(provider);
+      //print(provider);
+      GeneralUtils.showToast("We Are Signing You Out. Please Wait..");
+
+      // Check if the authentication provider is email and password
+      if (provider == 'password') {
+        await FirebaseAuth.instance.signOut();
+
+        // The user is logged in with email and password
+      } else if (provider == 'google.com') {
+        // The user is logged in with Google
+        await googlesignin.disconnect();
+        FirebaseAuth.instance.signOut();
+      }
+    }
   }
+
+  Future<void> deleteUser() async {
+
+      final FirebaseAuth _auth = FirebaseAuth.instance;
+
+    try {
+      // Get the currently signed-in user
+      User? user = _auth.currentUser;
+
+      if (user != null) {
+        // Delete the user
+        await user.delete();
+
+        // Sign out the user after deletion (optional)
+        await _auth.signOut();
+      } else {
+        // Handle the case where there's no signed-in user
+        print("No user is currently signed in.");
+      }
+    } catch (e) {
+      // Handle any errors that occur during user deletion
+      print("Error deleting user: $e");
+    }
+  }
+
 }

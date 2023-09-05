@@ -10,6 +10,7 @@ import 'package:khatabook/view_model/Auth%20Providers/login_provider.dart';
 import 'package:khatabook/view_model/Auth%20Providers/signup_provider.dart';
 import 'package:khatabook/view_model/book_form_provider.dart';
 import 'package:khatabook/view_model/home_screen_provider.dart';
+import 'package:khatabook/view_model/profile_provider.dart';
 import 'package:khatabook/view_model/transaction_list_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -43,6 +44,9 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider(
             create: (context) => TransactionListProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => ProfileProvider(),
           ),
         ],
         child: MaterialApp(

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:khatabook/Utils/Components/balance_card.dart';
 import 'package:khatabook/Utils/constant.dart';
 import 'package:khatabook/Utils/general_utils.dart';
+import 'package:khatabook/view_model/profile_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'package:khatabook/Utils/Components/book_card.dart';
@@ -29,8 +30,8 @@ class _HomeScreenState extends State<HomeScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<HomePageProvider>(context, listen: false).fetchCustomerList();
       Provider.of<HomePageProvider>(context, listen: false).getBalance(context);
+      Provider.of<ProfileProvider>(context, listen: false).fetchName();
     });
-    getName();
   }
 
   @override
@@ -39,17 +40,6 @@ class _HomeScreenState extends State<HomeScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<HomePageProvider>(context, listen: false).fetchCustomerList();
     });
-  }
-
-  void getName() async {
-    var email = FirebaseAuth.instance.currentUser!.email!;
-    DocumentSnapshot snapshot =
-        await FirebaseFirestore.instance.collection("user").doc(email).get();
-
-    if (snapshot.exists) {
-      Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
-      name = data['name'];
-    }
   }
 
   @override
@@ -66,36 +56,48 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const Text(
                       "Hello",
                       style: TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.normal),
+                          fontSize: 16, fontWeight: FontWeight.normal),
                     ),
-                    Text(
-                      name,
-                      style: const TextStyle(
-                          fontSize: 24, fontWeight: FontWeight.w900),
-                    ),
+                    Consumer<ProfileProvider>(builder: (context, value, child) {
+                      return Text(
+                        value.getNameLoading ? "Fetching" : value.getName,
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w900),
+                      );
+                    })
                   ],
                 ),
-                // Consumer<HomePageProvider>(builder: (context, value, child) {
-                //   return Text(
-                //     "₹ ${value.getIncome - value.getExpense}",
-                //     style: const TextStyle(
-                //         fontSize: 24, fontWeight: FontWeight.bold),
-                //   );
-                // })
-                CircleAvatar(
-                  radius: 24,
-                  backgroundColor: Colors.grey,
-                  child: CommonText(
-                    text: name[0].toUpperCase(),
-                    fontsize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                )
+                Consumer<ProfileProvider>(builder: (context, value, child) {
+                  return InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, RouteNames.profile);
+                    },
+                    child: Hero(
+                      tag: "profile",
+                      child: CircleAvatar(
+                        radius: 24,
+                        backgroundColor: blue,
+                        child: value.getNameLoading
+                            ? const Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                              )
+                            : CommonText(
+                                text: value.getName[0].toUpperCase(),
+                                fontsize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                      ),
+                    ),
+                  );
+                })
               ],
             ),
             const SizedBox(
@@ -200,7 +202,7 @@ class _HomeScreenState extends State<HomeScreen> {
             //     ],
             //   ),
             // ),
-             Consumer<HomePageProvider>(builder: (context, value, child) {
+            Consumer<HomePageProvider>(builder: (context, value, child) {
               return value.getBalanceLoading
                   ? Container(
                       height: 200,

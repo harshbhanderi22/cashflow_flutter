@@ -45,6 +45,9 @@ dependencies:
   cloud_firestore: ^4.8.3
   image_picker: ^1.0.1
   firebase_storage: ^11.2.5
+  pdf: ^3.10.1
+  printing: ^5.10.4
+  path_provider: ^2.1.1
  
 
 dev_dependencies:
@@ -89,6 +92,9 @@ flutter:
     - family: popins
       fonts:
         - asset: assests/fonts/Poppins/Poppins-Regular.ttf
+    - family: open
+      fonts:
+        - asset: assests/fonts/Poppins/open-sans.ttf
    #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

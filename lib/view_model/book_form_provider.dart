@@ -8,6 +8,8 @@ import 'package:khatabook/Models/book_model.dart';
 import 'package:khatabook/Utils/Routes/route_name.dart';
 import 'package:khatabook/Utils/general_utils.dart';
 import 'package:khatabook/data/Firebase%20Data/book_data.dart';
+import 'package:khatabook/view_model/home_screen_provider.dart';
+import 'package:provider/provider.dart';
 
 class BookFormProvider with ChangeNotifier {
   //0 = Customer
@@ -82,7 +84,10 @@ class BookFormProvider with ChangeNotifier {
     setSubmitLoading(true);
     try {
       StoreBookDataToUser().addBook(bookModel.toMap()).whenComplete(() {
-        Navigator.of(context).pushNamed(RouteNames.home);
+        Navigator.of(context).popUntil((route) {
+          Provider.of<HomePageProvider>(context,listen: false).fetchCustomerList();
+          return true;
+        });
         setPickedImage(null);
         setSelectedImageUrl("");
       });
