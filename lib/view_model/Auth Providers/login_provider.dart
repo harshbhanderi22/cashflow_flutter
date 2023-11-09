@@ -48,7 +48,7 @@ class LoginProvider with ChangeNotifier {
           .then((value) {
         setLoading(false);
         GeneralUtils.showToast("You Logged In Successfully");
-        Navigator.pushNamed(context, RouteNames.home);
+        Navigator.pushReplacementNamed(context, RouteNames.home);
       });
     } on FirebaseAuthException catch (e) {
       setLoading(false);

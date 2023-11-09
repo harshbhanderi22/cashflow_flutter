@@ -53,7 +53,7 @@ class TransactionCard extends StatelessWidget {
                 children: [
                   SizedBox(
                     width: GeneralUtils.getWidth(context) / 3,
-                    height: 20,
+                    height: 24,
                     child: CommonText(
                       text: transactionModel.title,
                       fontsize: 18,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:khatabook/Models/user_model.dart';
+import 'package:khatabook/Utils/Routes/route_name.dart';
 import 'package:khatabook/data/Firebase%20Data/user_data.dart';
 
 class GoogleSingInProivder extends ChangeNotifier {
@@ -27,8 +28,8 @@ class GoogleSingInProivder extends ChangeNotifier {
 
     await FirebaseAuth.instance.signInWithCredential(credential).then((value) {
       UserModel userModel = UserModel(
-        total: 0,
-        cost: 0,
+          total: 0,
+          cost: 0,
           name: FirebaseAuth.instance.currentUser!.displayName,
           email: FirebaseAuth.instance.currentUser!.email,
           image: FirebaseAuth.instance.currentUser!.photoURL);
@@ -40,8 +41,10 @@ class GoogleSingInProivder extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future googleLogOut() async {
+  Future googleLogOut(BuildContext context) async {
     await googlesignin.disconnect();
-    FirebaseAuth.instance.signOut();
+    FirebaseAuth.instance.signOut().then((value) {
+      Navigator.pushReplacementNamed(context, RouteNames.signUp);
+    });
   }
 }

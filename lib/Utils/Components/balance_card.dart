@@ -48,7 +48,7 @@ class BalanceCard extends StatelessWidget {
             children: [
               CreditDebitBox(
                 label: "Credit",
-                amount: income.toString(),
+                amount: income.round().toString(),
                 icon: Icons.arrow_upward,
               ),
               const SizedBox(
@@ -56,7 +56,7 @@ class BalanceCard extends StatelessWidget {
               ),
               CreditDebitBox(
                 label: "Debit",
-                amount:expense.toString(),
+                amount:expense.round().toString(),
                 icon: Icons.arrow_downward,
               ),
             ],

@@ -28,7 +28,7 @@ class CreditDebitBox extends StatelessWidget {
               children: [
                 CommonText(
                   text: "₹ $amount",
-                  fontsize: 18,
+                  fontsize: amount.length > 7 ? 16 : 18,
                   fontWeight: FontWeight.bold,
                 ),
                 CommonText(

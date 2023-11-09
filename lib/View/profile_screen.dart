@@ -128,7 +128,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   icon: Icons.logout,
                                   label: "Log Out",
                                   onTap: () {
-                                    value.signOut();
+                                    value.signOut(context);
                                   },
                                 );
                               })

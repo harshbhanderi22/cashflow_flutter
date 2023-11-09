@@ -49,12 +49,16 @@ class BookCard extends StatelessWidget {
                                 color: Colors.white,
                               ),
                             )
-                          : CircleAvatar(
-                              radius: 30,
-                              backgroundColor: blue,
-                              child: Image.network(
-                                bookModel.image!,
-                                fit: BoxFit.cover,
+                          : SizedBox(
+                              height: 60,
+                              width: 60,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(30),
+                                //backgroundColor: blue,
+                                child: Image.network(
+                                  bookModel.image!,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ));
             },

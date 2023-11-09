@@ -13,8 +13,8 @@ import 'package:khatabook/Utils/constant.dart';
 import 'package:khatabook/view_model/transaction_list_provider.dart';
 
 class AddEntryScreen extends StatefulWidget {
-  BookModel bookModel;
-  AddEntryScreen({
+  final BookModel bookModel;
+  const AddEntryScreen({
     Key? key,
     required this.bookModel,
   }) : super(key: key);

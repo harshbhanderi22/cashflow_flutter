@@ -14,8 +14,8 @@ import 'package:khatabook/view_model/transaction_list_provider.dart';
 import 'package:provider/provider.dart';
 
 class TransactionListScreen extends StatefulWidget {
-  BookModel bookModel;
-  TransactionListScreen({
+  final BookModel bookModel;
+  const TransactionListScreen({
     Key? key,
     required this.bookModel,
   }) : super(key: key);
@@ -78,11 +78,10 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
                     builder: (context, value, child) {
                   return InkWell(
                     onTap: () {
-                      //TODO: Add PDF Option
-                      PdfHelper().generateTransactionPdf(
+                       PdfHelper().generateTransactionPdf(
                           value.getTransactions,
                           Provider.of<ProfileProvider>(context, listen: false)
-                              .getUserModel, widget.bookModel, Provider.of<ProfileProvider>(context).getBussinessName);
+                              .getUserModel, widget.bookModel, Provider.of<ProfileProvider>(context,listen: false).getBussinessName);
                     },
                     child: const Icon(
                       Icons.print,

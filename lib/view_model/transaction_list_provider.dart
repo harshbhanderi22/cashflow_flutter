@@ -170,8 +170,7 @@ class TransactionListProvider with ChangeNotifier {
     setLoading(true);
     try {
       TransactionData().addData(transactionModel.toMap(), id).whenComplete(() {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => TransactionListScreen(bookModel: bookModel)));
+        Navigator.of(context).pushReplacementNamed(RouteNames.transactionList,arguments: TransactionListArgument(bookModel: bookModel));
       });
       setLoading(false);
     } catch (e) {

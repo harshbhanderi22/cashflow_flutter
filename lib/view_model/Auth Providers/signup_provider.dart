@@ -65,7 +65,7 @@ class SignupProvider with ChangeNotifier {
             image: FirebaseAuth.instance.currentUser!.photoURL);
         UserData().addUser(userModel.toMap(), "user", email);
         GeneralUtils.showToast("User Created Successfully 🎉🎉");
-        Navigator.of(context).pushNamed(RouteNames.home);
+        Navigator.of(context).pushReplacementNamed(RouteNames.home);
       });
     } on FirebaseAuthException catch (e) {
       setLoading(false);
@@ -79,7 +79,7 @@ class SignupProvider with ChangeNotifier {
     }
   }
 
-  Future<void> signOut() async {
+  Future<void> signOut(BuildContext context) async {
     // Get the current user
     final User? user = FirebaseAuth.instance.currentUser;
     final googlesignin = GoogleSignIn();
@@ -89,19 +89,25 @@ class SignupProvider with ChangeNotifier {
       // Get the authentication provider
       final String provider = user.providerData[0].providerId;
       //print(user.providerData);
-      GeneralUtils.showToast(provider);
+      //GeneralUtils.showToast(provider);
       //print(provider);
       GeneralUtils.showToast("We Are Signing You Out. Please Wait..");
 
       // Check if the authentication provider is email and password
       if (provider == 'password') {
-        await FirebaseAuth.instance.signOut();
+        await FirebaseAuth.instance.signOut().then((value) {
+      Navigator.pushReplacementNamed(context, RouteNames.signUp);
+
+        });
 
         // The user is logged in with email and password
       } else if (provider == 'google.com') {
         // The user is logged in with Google
         await googlesignin.disconnect();
-        FirebaseAuth.instance.signOut();
+        await FirebaseAuth.instance.signOut().then((value) {
+      Navigator.pushReplacementNamed(context, RouteNames.signUp);
+
+        });
       }
     }
   }

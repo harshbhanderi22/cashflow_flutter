@@ -1,13 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:khatabook/Utils/Components/balance_card.dart';
 import 'package:khatabook/Utils/constant.dart';
 import 'package:khatabook/Utils/general_utils.dart';
 import 'package:khatabook/view_model/profile_provider.dart';
 import 'package:provider/provider.dart';
-
 import 'package:khatabook/Utils/Components/book_card.dart';
 import 'package:khatabook/Utils/Components/common_text.dart';
 import 'package:khatabook/Utils/Components/homepage_floating.dart';
@@ -39,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.didChangeDependencies();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<HomePageProvider>(context, listen: false).fetchCustomerList();
+      //Provider.of<ProfileProvider>(context, listen: false).fetchName();
     });
   }
 

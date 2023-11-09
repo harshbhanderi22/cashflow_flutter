@@ -93,13 +93,16 @@ class PdfHelper {
           return Column(children: [
             Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(
                       height: 80,
                       width: 80,
                       child: Image(pw.MemoryImage(imageData))),
-                  Column(children: [
+                  SizedBox(width: 30),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                     Text((company == "" ? userModel.name : company) ?? "Cash Flow",
                         style: TextStyle(
                           fontSize: 34,
@@ -117,10 +120,10 @@ class PdfHelper {
                           fontSize: 12,
                         )),
                   ]),
-                  Container(
-                      height: 80,
-                      width: 80,
-                      child: Image(pw.MemoryImage(imageData))),
+                  // Container(
+                  //     height: 80,
+                  //     width: 80,
+                  //     child: Image(pw.MemoryImage(imageData))),
                 ]),
             Divider(thickness: 2, color: PdfColor.fromHex("#000000")),
           ]);
